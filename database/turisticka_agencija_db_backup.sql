@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `turisticka_agencija` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `turisticka_agencija`;
 -- MySQL dump 10.13  Distrib 5.7.25, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: turisticka_agencija
@@ -16,49 +18,15 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `destinacija`
---
-
-DROP TABLE IF EXISTS `destinacija`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `destinacija` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `DrzavaId` int(11) NOT NULL,
-  `Grad` varchar(45) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
-  `Slika` varchar(1024) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `DestinacijaId_UNIQUE` (`Id`),
-  KEY `fk_destinacija_drzava1_idx` (`DrzavaId`),
-  CONSTRAINT `fk_destinacija_drzava1` FOREIGN KEY (`DrzavaId`) REFERENCES `drzava` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `destinacija`
 --
 -- ORDER BY:  `Id`
 
 LOCK TABLES `destinacija` WRITE;
 /*!40000 ALTER TABLE `destinacija` DISABLE KEYS */;
-INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, i','https://storage.radiosarajevo.ba/image/426112/1180x732/bec-panorama-grada-15.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske.','https://www.turizamiputovanja.com/wp-content/uploads/2017/01/Pariz-no%C4%87u.jpg');
+INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, između Alpa i Karpata, gdje je Dunav probio svoj put prema moru kroz planine. Grad leži pretežno sa desne obale rijeke, sve do obronaka Kahlenberga.','https://storage.radiosarajevo.ba/image/426112/1180x732/bec-panorama-grada-15.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske. Nalazi se na severu Francuske na reci Seni.','https://www.turizamiputovanja.com/wp-content/uploads/2017/01/Pariz-no%C4%87u.jpg'),(3,1,'Banja Luka','Smjesten na obali Vrbasa, vrlo fin. Sve preporuke.','http://www.banjaluka-tourism.banjaluka-turizam.com/images/Magical-City-No.3.jpg');
 /*!40000 ALTER TABLE `destinacija` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `drzava`
---
-
-DROP TABLE IF EXISTS `drzava`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `drzava` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `drzava`
@@ -72,21 +40,6 @@ INSERT INTO `drzava` (`Id`, `Naziv`) VALUES (1,'Bosna i Hercegovina'),(2,'Srbija
 UNLOCK TABLES;
 
 --
--- Table structure for table `kompanija`
---
-
-DROP TABLE IF EXISTS `kompanija`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `kompanija` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) NOT NULL,
-  `Grad` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `kompanija`
 --
 -- ORDER BY:  `Id`
@@ -96,24 +49,6 @@ LOCK TABLES `kompanija` WRITE;
 INSERT INTO `kompanija` (`Id`, `Naziv`, `Grad`) VALUES (1,'Lasta','Beograd'),(2,'Golub','Kotor Varoš'),(3,'Tempoturist','Teslić'),(4,'Neobas','Banja Luka'),(5,'AirSerbia','Beograd'),(6,'WizzAir','Budimpešta'),(7,'RyanAir','Dablin');
 /*!40000 ALTER TABLE `kompanija` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `korisnik`
---
-
-DROP TABLE IF EXISTS `korisnik`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `korisnik` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Ime` varchar(45) NOT NULL,
-  `Prezime` varchar(45) NOT NULL,
-  `Email` varchar(256) DEFAULT NULL,
-  `DatumRodjenja` date NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `korisnik`
@@ -127,34 +62,6 @@ INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `Email`, `DatumRodjenja`) VALUES
 UNLOCK TABLES;
 
 --
--- Table structure for table `ponuda`
---
-
-DROP TABLE IF EXISTS `ponuda`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ponuda` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `SmjestajId` int(11) NOT NULL,
-  `DestinacijaId` int(11) NOT NULL,
-  `PrevozId` int(11) NOT NULL,
-  `Naziv` varchar(45) NOT NULL,
-  `DatumKreiranja` date NOT NULL,
-  `Pocetak` date NOT NULL,
-  `Kraj` date NOT NULL,
-  `Cijena` decimal(10,2) NOT NULL DEFAULT '1.00',
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `IdPutovanja_UNIQUE` (`Id`),
-  KEY `fk_ponuda_smjestaj1_idx` (`SmjestajId`),
-  KEY `fk_ponuda_destinacija1_idx` (`DestinacijaId`),
-  KEY `fk_ponuda_prevoz1_idx` (`PrevozId`),
-  CONSTRAINT `fk_ponuda_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ponuda_prevoz1` FOREIGN KEY (`PrevozId`) REFERENCES `prevoz` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ponuda_smjestaj1` FOREIGN KEY (`SmjestajId`) REFERENCES `smjestaj` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `ponuda`
 --
 -- ORDER BY:  `Id`
@@ -164,26 +71,6 @@ LOCK TABLES `ponuda` WRITE;
 INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00);
 /*!40000 ALTER TABLE `ponuda` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `prevoz`
---
-
-DROP TABLE IF EXISTS `prevoz`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `prevoz` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `KompanijaId` int(11) NOT NULL,
-  `TipPrevozaId` int(11) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `fk_prevoz_kompanija1_idx` (`KompanijaId`),
-  KEY `fk_prevoz_tip_prevoza1_idx` (`TipPrevozaId`),
-  CONSTRAINT `fk_prevoz_kompanija1` FOREIGN KEY (`KompanijaId`) REFERENCES `kompanija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_prevoz_tip_prevoza1` FOREIGN KEY (`TipPrevozaId`) REFERENCES `tip_prevoza` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `prevoz`
@@ -197,23 +84,6 @@ INSERT INTO `prevoz` (`Id`, `KompanijaId`, `TipPrevozaId`, `Opis`) VALUES (1,1,1
 UNLOCK TABLES;
 
 --
--- Table structure for table `rezervacija`
---
-
-DROP TABLE IF EXISTS `rezervacija`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rezervacija` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `PonudaId` int(11) NOT NULL,
-  `BrojOsoba` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `fk_rezervacija_ponuda1_idx` (`PonudaId`),
-  CONSTRAINT `fk_rezervacija_ponuda1` FOREIGN KEY (`PonudaId`) REFERENCES `ponuda` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `rezervacija`
 --
 -- ORDER BY:  `Id`
@@ -223,25 +93,6 @@ LOCK TABLES `rezervacija` WRITE;
 INSERT INTO `rezervacija` (`Id`, `PonudaId`, `BrojOsoba`) VALUES (1,1,2);
 /*!40000 ALTER TABLE `rezervacija` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `rezervacija_korisnici`
---
-
-DROP TABLE IF EXISTS `rezervacija_korisnici`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rezervacija_korisnici` (
-  `RezervacijaId` int(11) NOT NULL,
-  `KorisnikId` int(11) NOT NULL,
-  `DatumRezervacije` date DEFAULT NULL,
-  PRIMARY KEY (`RezervacijaId`,`KorisnikId`),
-  KEY `fk_rezervacija_korisnici_rezervacija1_idx` (`RezervacijaId`),
-  KEY `fk_rezervacija_korisnici_korisnik1_idx` (`KorisnikId`),
-  CONSTRAINT `fk_rezervacija_korisnici_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rezervacija_korisnici_rezervacija1` FOREIGN KEY (`RezervacijaId`) REFERENCES `rezervacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rezervacija_korisnici`
@@ -255,25 +106,6 @@ INSERT INTO `rezervacija_korisnici` (`RezervacijaId`, `KorisnikId`, `DatumRezerv
 UNLOCK TABLES;
 
 --
--- Table structure for table `smjestaj`
---
-
-DROP TABLE IF EXISTS `smjestaj`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `smjestaj` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `DestinacijaId` int(11) NOT NULL,
-  `Naziv` varchar(45) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
-  `Adresa` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `fk_smjestaj_destinacija1_idx` (`DestinacijaId`),
-  CONSTRAINT `fk_smjestaj_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `smjestaj`
 --
 -- ORDER BY:  `Id`
@@ -283,20 +115,6 @@ LOCK TABLES `smjestaj` WRITE;
 INSERT INTO `smjestaj` (`Id`, `DestinacijaId`, `Naziv`, `Opis`, `Adresa`) VALUES (1,2,'Four Seasons Hotel George V','Zapanjujući hotel u nekadašnjem znamenitom ho','31 Avenue George V'),(2,1,'Sofie Apartments','Apartmani Sofie se nalaze na 5 minuta vožnje ','Kegelgasse 20');
 /*!40000 ALTER TABLE `smjestaj` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `tip_prevoza`
---
-
-DROP TABLE IF EXISTS `tip_prevoza`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tip_prevoza` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tip_prevoza`
@@ -326,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-08 17:04:48
+-- Dump completed on 2019-10-10 14:17:50

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TurističkaAgencija.Models
 {
@@ -18,6 +19,8 @@ namespace TurističkaAgencija.Models
         public DateTime DatumKreiranja { get; set; }
         public DateTime Pocetak { get; set; }
         public DateTime Kraj { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
         public decimal Cijena { get; set; }
 
         public virtual Destinacija Destinacija { get; set; }

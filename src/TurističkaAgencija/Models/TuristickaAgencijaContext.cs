@@ -57,16 +57,16 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Grad)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Opis)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Slika)
                     .HasMaxLength(1024)
-                    .IsUnicode(false);
+                    .IsUnicode(true);
 
                 entity.HasOne(d => d.Drzava)
                     .WithMany(p => p.Destinacija)
@@ -83,8 +83,8 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
             });
 
             modelBuilder.Entity<Kompanija>(entity =>
@@ -94,13 +94,13 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Grad)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
             });
 
             modelBuilder.Entity<Korisnik>(entity =>
@@ -116,18 +116,18 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.DatumRodjenja).HasColumnType("date");
 
                 entity.Property(e => e.Email)
-                    .HasMaxLength(256)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Ime)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Prezime)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
             });
 
             modelBuilder.Entity<Ponuda>(entity =>
@@ -161,8 +161,8 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Pocetak).HasColumnType("date");
 
@@ -204,8 +204,8 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.KompanijaId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Opis)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(10000)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.TipPrevozaId).HasColumnType("int(11)");
 
@@ -283,19 +283,19 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Adresa)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.DestinacijaId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Opis)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(10000)
+                    .IsUnicode(true);
 
                 entity.HasOne(d => d.Destinacija)
                     .WithMany(p => p.Smjestaj)
@@ -311,8 +311,8 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Naziv)
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(1024)
+                    .IsUnicode(true);
             });
         }
     }
