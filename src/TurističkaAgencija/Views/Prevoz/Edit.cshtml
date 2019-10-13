@@ -1,0 +1,44 @@
+﻿@model TurističkaAgencija.Models.Prevoz
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Prevoz</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="KompanijaId" class="control-label"></label>
+                <select asp-for="KompanijaId" class="form-control" asp-items="ViewBag.KompanijaId"></select>
+                <span asp-validation-for="KompanijaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipPrevozaId" class="control-label"></label>
+                <select asp-for="TipPrevozaId" class="form-control" asp-items="ViewBag.TipPrevozaId"></select>
+                <span asp-validation-for="TipPrevozaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opis" class="control-label"></label>
+                <input asp-for="Opis" class="form-control" />
+                <span asp-validation-for="Opis" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
