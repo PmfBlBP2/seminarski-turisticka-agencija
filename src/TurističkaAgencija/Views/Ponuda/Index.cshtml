@@ -1,0 +1,90 @@
+﻿@model IEnumerable<TurističkaAgencija.Models.Ponuda>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ponuda putovanja <a class="btn btn-outline-info" asp-controller="Ponuda" asp-action="Create">Dodaj ponudu</a></h1>
+<hr />
+
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="text-primary " >@item.Naziv</h2>
+                <img class="popImg img-thumbnail img-hover" width="430"
+                     src="@Html.DisplayFor(modelItem => item.Destinacija.Slika)"
+                     alt="@Html.DisplayFor(modelItem => item.Destinacija.Grad)" />
+                <p></p>
+                <a class="btn btn-outline-primary btn-lg btn-block" href="#">Rezerviši</a>
+            </div>
+            <div class="col-7">
+                <div class="row">
+                    <div class="col">
+                        <p><strong>Datum polaska: </strong>@item.Pocetak.ToShortDateString()</p>
+                        <p><strong>Datum povratka: </strong>@item.Kraj.ToShortDateString()</p>
+                        <hr style="width: 100px; margin-left: 0px;" />
+                        <p><strong>Prevoz:</strong></p>
+                        <div class="container">
+                            <p><strong>Tip: </strong>@item.Prevoz.TipPrevoza.Naziv</p>
+                            <p><strong>Opis: </strong>@item.Prevoz.Opis</p>
+                            <p><strong>Prevoznik: </strong>@item.Prevoz.Kompanija.Naziv, @item.Prevoz.Kompanija.Grad</p>
+                        </div>
+                        <hr style="width: 100px; margin-left: 0px;" />
+                        <h4><strong>Cijena: </strong>@item.Cijena KM</h4>
+                    </div>
+                    <div class="col">
+                        <p><strong>Destinacija:</strong></p>
+                        <div class="container">
+                            <p><strong>Grad: </strong>@item.Destinacija.Grad</p>
+                            <p><strong>Opis: </strong>@item.Destinacija.Opis</p>
+                        </div>
+                        <hr style="width: 100px; margin-left: 0px;" />
+                        <p><strong>Smjestaj:</strong></p>
+                        <div class="container">
+                            <p><strong>Naziv: </strong>@item.Smjestaj.Naziv</p>
+                            <p><strong>Adresa: </strong>@item.Smjestaj.Adresa</p>
+                            <p><strong>Opis: </strong>@item.Smjestaj.Opis</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <hr />
+}
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    $(function () {
+        $('.popImg').on('click', function () {
+            $('.imagepreview').attr('src', $(this).attr('src'));
+            $('#exampleModalCenterTitle').text($(this).attr('alt'));
+            $('#imagemodal').modal('show');
+        });
+    });
+</script>
+<style>
+    .img-hover {
+        cursor: pointer;
+    }
+</style>
+}

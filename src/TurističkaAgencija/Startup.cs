@@ -69,7 +69,7 @@ namespace TurističkaAgencija
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Ponuda}/{action=Index}/{id?}");
             });
         }
     }
