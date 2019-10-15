@@ -21,7 +21,7 @@
                      src="@Html.DisplayFor(modelItem => item.Destinacija.Slika)"
                      alt="@Html.DisplayFor(modelItem => item.Destinacija.Grad)" />
                 <p></p>
-                <a class="btn btn-outline-primary btn-lg btn-block" href="#">Rezerviši</a>
+                <a class="btn btn-outline-primary btn-lg btn-block" href="@Url.Action("Index","RezervacijaKorisnici")">Rezerviši</a>
                 <p></p>
 
                 @if (SignInManager.IsSignedIn(User))

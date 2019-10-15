@@ -9,11 +9,11 @@ using TurističkaAgencija.Models;
 
 namespace TurističkaAgencija.Controllers
 {
-    public class RezervacijaHelperController : Controller
+    public class RezervacijaController : Controller
     {
         private readonly TuristickaAgencijaContext _context;
 
-        public RezervacijaHelperController(TuristickaAgencijaContext context)
+        public RezervacijaController(TuristickaAgencijaContext context)
         {
             _context = context;
         }
