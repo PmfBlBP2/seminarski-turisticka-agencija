@@ -65,10 +65,11 @@ namespace TurističkaAgencija.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,DatumKreiranja,Pocetak,Kraj,Cijena")] Ponuda ponuda)
+        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Pocetak,Kraj,Cijena")] Ponuda ponuda)
         {
             if (ModelState.IsValid)
             {
+                ponuda.DatumKreiranja = DateTime.Now;
                 _context.Add(ponuda);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
