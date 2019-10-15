@@ -15,6 +15,7 @@ namespace TurističkaAgencija.Models
         public string Naziv { get; set; }
         public string Opis { get; set; }
         public string Adresa { get; set; }
+        public string Slika { get; set; }
 
         public virtual Destinacija Destinacija { get; set; }
         public virtual ICollection<Ponuda> Ponuda { get; set; }

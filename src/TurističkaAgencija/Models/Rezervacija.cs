@@ -13,6 +13,7 @@ namespace TurističkaAgencija.Models
         public int Id { get; set; }
         public int PonudaId { get; set; }
         public int? BrojOsoba { get; set; }
+        public decimal? Iznos { get; set; }
 
         public virtual Ponuda Ponuda { get; set; }
         public virtual ICollection<RezervacijaKorisnici> RezervacijaKorisnici { get; set; }

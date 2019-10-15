@@ -7,6 +7,10 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema turisticka_agencija
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema turisticka_agencija
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `turisticka_agencija` DEFAULT CHARACTER SET utf8 ;
 USE `turisticka_agencija` ;
 
@@ -128,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`smjestaj` (
   `Naziv` VARCHAR(1024) NOT NULL,
   `Opis` VARCHAR(10000) NULL DEFAULT NULL,
   `Adresa` VARCHAR(1024) NULL DEFAULT NULL,
+  `Slika` VARCHAR(3000) NULL,
   PRIMARY KEY (`Id`),
   INDEX `fk_smjestaj_destinacija1_idx` (`DestinacijaId` ASC),
   CONSTRAINT `fk_smjestaj_destinacija1`
@@ -153,7 +158,8 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`ponuda` (
   `DatumKreiranja` DATE NOT NULL,
   `Pocetak` DATE NOT NULL,
   `Kraj` DATE NOT NULL,
-  `Cijena` DECIMAL(10,2) NOT NULL DEFAULT '1',
+  `Cijena` DECIMAL(10,2) NOT NULL,
+  `BrojMijesta` INT NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `IdPutovanja_UNIQUE` (`Id` ASC),
   INDEX `fk_ponuda_smjestaj1_idx` (`SmjestajId` ASC),
@@ -187,6 +193,7 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` INT(11) NOT NULL,
   `BrojOsoba` INT(11) NULL DEFAULT NULL,
+  `Iznos` DECIMAL NULL,
   PRIMARY KEY (`Id`),
   INDEX `fk_rezervacija_ponuda1_idx` (`PonudaId` ASC),
   CONSTRAINT `fk_rezervacija_ponuda1`

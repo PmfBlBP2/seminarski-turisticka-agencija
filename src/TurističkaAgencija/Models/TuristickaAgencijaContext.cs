@@ -26,15 +26,14 @@ namespace TurističkaAgencija.Models
         public virtual DbSet<Smjestaj> Smjestaj { get; set; }
         public virtual DbSet<TipPrevoza> TipPrevoza { get; set; }
 
-        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=;database=turisticka_agencija");
             }
         }
-        */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,15 +57,15 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Grad)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Opis)
-                    .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .HasMaxLength(10000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Slika)
-                    .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .HasMaxLength(10000)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Drzava)
                     .WithMany(p => p.Destinacija)
@@ -84,7 +83,7 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Naziv)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Kompanija>(entity =>
@@ -95,12 +94,12 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Grad)
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Korisnik>(entity =>
@@ -117,17 +116,17 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Ime)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Prezime)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Ponuda>(entity =>
@@ -149,9 +148,9 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.Cijena)
-                    .HasColumnType("decimal(10,2)")
-                    .HasDefaultValueSql("1.00");
+                entity.Property(e => e.BrojMijesta).HasColumnType("int(11)");
+
+                entity.Property(e => e.Cijena).HasColumnType("decimal(10,2)");
 
                 entity.Property(e => e.DatumKreiranja).HasColumnType("date");
 
@@ -162,7 +161,7 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Naziv)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Pocetak).HasColumnType("date");
 
@@ -205,7 +204,7 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Opis)
                     .HasMaxLength(10000)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TipPrevozaId).HasColumnType("int(11)");
 
@@ -232,6 +231,8 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.BrojOsoba).HasColumnType("int(11)");
+
+                entity.Property(e => e.Iznos).HasColumnType("decimal(10,0)");
 
                 entity.Property(e => e.PonudaId).HasColumnType("int(11)");
 
@@ -284,18 +285,22 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Adresa)
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DestinacijaId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Naziv)
                     .IsRequired()
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Opis)
                     .HasMaxLength(10000)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Slika)
+                    .HasMaxLength(3000)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Destinacija)
                     .WithMany(p => p.Smjestaj)
@@ -312,7 +317,7 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.Naziv)
                     .HasMaxLength(1024)
-                    .IsUnicode(true);
+                    .IsUnicode(false);
             });
         }
     }
