@@ -1,53 +1,75 @@
 ﻿@model IEnumerable<TurističkaAgencija.Models.Smjestaj>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Smještaj";
 }
 
-<h1>Index</h1>
+<h1>Smještaj
+    <a class="btn btn-outline-info" asp-action="Create">Dodaj novi smještaj</a>
+</h1>
+<hr />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Naziv)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Opis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adresa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Destinacija)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naziv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Opis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adresa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Destinacija.Grad)
-            </td>
-            <td>
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="text-primary ">@item.Naziv</h2>
+                <img class="popImg img-thumbnail img-hover" width="430"
+                     src="@Html.DisplayFor(modelItem => item.Slika)"
+                     alt="@Html.DisplayFor(modelItem => item.Naziv)" />
+                <p></p>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+            </div>
+            <div class="col-7">
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            <strong>Destinacija: </strong>
+                            <a href="@Url.Action("Details", "Destinacija", new { id = item.Destinacija.Id})">
+                                @item.Destinacija.Grad
+                            </a>
+                        </p> <p><strong>Adresa: </strong>@item.Adresa</p>
+                        <p><strong>Opis: </strong>@item.Opis</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr />
 }
-    </tbody>
-</table>
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    $(function () {
+        $('.popImg').on('click', function () {
+            $('.imagepreview').attr('src', $(this).attr('src'));
+            $('#exampleModalCenterTitle').text($(this).attr('alt'));
+            $('#imagemodal').modal('show');
+        });
+    });
+    </script>
+    <style>
+        .img-hover {
+            cursor: pointer;
+        }
+    </style>
+}

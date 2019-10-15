@@ -65,7 +65,7 @@ namespace TurističkaAgencija.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Pocetak,Kraj,Cijena")] Ponuda ponuda)
+        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace TurističkaAgencija.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,DatumKreiranja,Pocetak,Kraj,Cijena")] Ponuda ponuda)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,DatumKreiranja,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
         {
             if (id != ponuda.Id)
             {
