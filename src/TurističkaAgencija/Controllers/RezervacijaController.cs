@@ -18,14 +18,14 @@ namespace TurističkaAgencija.Controllers
             _context = context;
         }
 
-        // GET: RezervacijaHelper
+        // GET: Rezervacija
         public async Task<IActionResult> Index()
         {
-            var turistickaAgencijaContext = _context.Rezervacija.Include(r => r.Ponuda);
-            return View(await turistickaAgencijaContext.ToListAsync());
+            var turistickaAgencijaContext = _context.Rezervacija.Include(r => r.Korisnik).Include(r => r.Ponuda);
+            return View(await turistickaAgencijaContext.ToListAsync().ConfigureAwait(false));
         }
 
-        // GET: RezervacijaHelper/Details/5
+        // GET: Rezervacija/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,8 +34,10 @@ namespace TurističkaAgencija.Controllers
             }
 
             var rezervacija = await _context.Rezervacija
+                .Include(r => r.Korisnik)
                 .Include(r => r.Ponuda)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id)
+                .ConfigureAwait(false);
             if (rezervacija == null)
             {
                 return NotFound();
@@ -44,31 +46,37 @@ namespace TurističkaAgencija.Controllers
             return View(rezervacija);
         }
 
-        // GET: RezervacijaHelper/Create
+        // GET: Rezervacija/Create
         public IActionResult Create()
         {
+            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime");
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv");
             return View();
         }
 
-        // POST: RezervacijaHelper/Create
+        // POST: Rezervacija/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PonudaId,BrojOsoba")] Rezervacija rezervacija)
+        public async Task<IActionResult> Create([Bind("Id,PonudaId,KorisnikId,DatumRezervacije,Iznos")] Rezervacija rezervacija)
         {
+            if(rezervacija == null)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(rezervacija);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv", rezervacija.PonudaId);
             return View(rezervacija);
         }
 
-        // GET: RezervacijaHelper/Edit/5
+        // GET: Rezervacija/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,33 +84,37 @@ namespace TurističkaAgencija.Controllers
                 return NotFound();
             }
 
-            var rezervacija = await _context.Rezervacija.FindAsync(id);
+            var rezervacija = await _context.Rezervacija.FindAsync(id).ConfigureAwait(false);
             if (rezervacija == null)
             {
                 return NotFound();
             }
+            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv", rezervacija.PonudaId);
             return View(rezervacija);
         }
 
-        // POST: RezervacijaHelper/Edit/5
+        // POST: Rezervacija/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PonudaId,BrojOsoba")] Rezervacija rezervacija)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PonudaId,KorisnikId,DatumRezervacije,Iznos")] Rezervacija rezervacija)
         {
+            if(rezervacija == null)
+            {
+                return NotFound();
+            }
             if (id != rezervacija.Id)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(rezervacija);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,11 +129,12 @@ namespace TurističkaAgencija.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv", rezervacija.PonudaId);
             return View(rezervacija);
         }
 
-        // GET: RezervacijaHelper/Delete/5
+        // GET: Rezervacija/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,8 +143,10 @@ namespace TurističkaAgencija.Controllers
             }
 
             var rezervacija = await _context.Rezervacija
+                .Include(r => r.Korisnik)
                 .Include(r => r.Ponuda)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id)
+                .ConfigureAwait(false);
             if (rezervacija == null)
             {
                 return NotFound();
@@ -140,14 +155,15 @@ namespace TurističkaAgencija.Controllers
             return View(rezervacija);
         }
 
-        // POST: RezervacijaHelper/Delete/5
+        // POST: Rezervacija/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rezervacija = await _context.Rezervacija.FindAsync(id);
+            var rezervacija = await _context.Rezervacija.FindAsync(id).ConfigureAwait(false);
             _context.Rezervacija.Remove(rezervacija);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync()
+                .ConfigureAwait(false);
             return RedirectToAction(nameof(Index));
         }
 

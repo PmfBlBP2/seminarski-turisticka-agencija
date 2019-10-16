@@ -19,10 +19,13 @@
                 @Html.DisplayNameFor(model => model.Prezime)
             </th>
             <th>
+                Datum rođenja
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                Datum rođenja
+                Broj telefona
             </th>
             <th></th>
         </tr>
@@ -36,15 +39,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Prezime)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            @{ 
+            @{
                 var date = item.DatumRodjenja.ToShortDateString();
                 <td>
                     @date
                 </td>
             }
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrojTelefona)
+            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -13,10 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BrojOsoba)
+                Datum rezervacije
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ponuda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Korisnik)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Iznos)
             </th>
             <th></th>
         </tr>
@@ -25,10 +31,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BrojOsoba)
+                @item.DatumRezervacije.Value.Date.ToShortDateString()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ponuda.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Korisnik.Ime) @Html.DisplayFor(modelItem => item.Korisnik.Prezime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Iznos) KM
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

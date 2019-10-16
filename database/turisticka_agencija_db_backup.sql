@@ -44,7 +44,7 @@ CREATE TABLE `destinacija` (
 
 LOCK TABLES `destinacija` WRITE;
 /*!40000 ALTER TABLE `destinacija` DISABLE KEYS */;
-INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, između Alpa i Karpata, gdje je Dunav probio svoj put prema moru kroz planine.','https://storage.radiosarajevo.ba/image/426112/1180x732/bec-panorama-grada-15.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske. Nalazi se na severu Francuske na reci Seni.','https://www.turizamiputovanja.com/wp-content/uploads/2017/01/Pariz-no%C4%87u.jpg'),(3,1,'Banja Luka','Smješten na obali Vrbasa, vrlo fin. Sve preporuke.','http://www.banjaluka-tourism.banjaluka-turizam.com/images/Magical-City-No.3.jpg');
+INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, između Alpa i Karpata, gdje je Dunav probio svoj put prema moru kroz planine.','https://storage.radiosarajevo.ba/image/426112/1180x732/bec-panorama-grada-15.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske. Nalazi se na severu Francuske na reci Seni.','http://www.travelland.rs/content_pictures/resized/hit--pariz-avionom-4-noci-2019-941.jpg'),(3,1,'Banja Luka','Smješten na obali Vrbasa, vrlo fin. Sve preporuke.','http://www.banjaluka-tourism.banjaluka-turizam.com/images/Magical-City-No.3.jpg');
 /*!40000 ALTER TABLE `destinacija` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,8 +110,9 @@ CREATE TABLE `korisnik` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Ime` varchar(1024) NOT NULL,
   `Prezime` varchar(1024) NOT NULL,
-  `Email` varchar(1024) DEFAULT NULL,
   `DatumRodjenja` date NOT NULL,
+  `Email` varchar(1024) DEFAULT NULL,
+  `BrojTelefona` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -124,7 +125,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `Email`, `DatumRodjenja`) VALUES (1,'Aleksandar','Toprek','aleksandartoprek@gmail.com','1995-07-29'),(2,'Tanja','Gromilic','tanjagromilic@gmail.com','1996-05-08'),(3,'Nikolina','Čolić','nikolinacolic@gmail.com','1995-09-08'),(4,'Đorđe','Simeunčević','djordjes@gmail.com','1995-05-19');
+INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com',NULL),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com',NULL),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +155,7 @@ CREATE TABLE `ponuda` (
   CONSTRAINT `fk_ponuda_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_prevoz1` FOREIGN KEY (`PrevozId`) REFERENCES `prevoz` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_smjestaj1` FOREIGN KEY (`SmjestajId`) REFERENCES `smjestaj` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +165,7 @@ CREATE TABLE `ponuda` (
 
 LOCK TABLES `ponuda` WRITE;
 /*!40000 ALTER TABLE `ponuda` DISABLE KEYS */;
-INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00,0),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00,0),(3,3,3,1,'Vikend u Banjoj Luci','2019-10-15','2019-10-25','2019-10-27',55.50,0);
+INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci','2019-10-15','2019-10-25','2019-10-27',55.50,50),(4,2,2,4,'Test','2019-10-15','2019-10-26','2019-10-31',240.00,35);
 /*!40000 ALTER TABLE `ponuda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,12 +210,15 @@ DROP TABLE IF EXISTS `rezervacija`;
 CREATE TABLE `rezervacija` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` int(11) NOT NULL,
-  `BrojOsoba` int(11) DEFAULT NULL,
-  `Iznos` decimal(10,0) DEFAULT NULL,
+  `KorisnikId` int(11) NOT NULL,
+  `DatumRezervacije` datetime DEFAULT NULL,
+  `Iznos` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `fk_rezervacija_ponuda1_idx` (`PonudaId`),
+  KEY `fk_rezervacija_korisnik1_idx` (`KorisnikId`),
+  CONSTRAINT `fk_rezervacija_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rezervacija_ponuda1` FOREIGN KEY (`PonudaId`) REFERENCES `ponuda` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,38 +228,8 @@ CREATE TABLE `rezervacija` (
 
 LOCK TABLES `rezervacija` WRITE;
 /*!40000 ALTER TABLE `rezervacija` DISABLE KEYS */;
-INSERT INTO `rezervacija` (`Id`, `PonudaId`, `BrojOsoba`, `Iznos`) VALUES (1,1,2,NULL);
+INSERT INTO `rezervacija` (`Id`, `PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (2,1,1,'2019-10-16 00:00:00',1350.00);
 /*!40000 ALTER TABLE `rezervacija` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rezervacija_korisnici`
---
-
-DROP TABLE IF EXISTS `rezervacija_korisnici`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rezervacija_korisnici` (
-  `RezervacijaId` int(11) NOT NULL,
-  `KorisnikId` int(11) NOT NULL,
-  `DatumRezervacije` date DEFAULT NULL,
-  PRIMARY KEY (`RezervacijaId`,`KorisnikId`),
-  KEY `fk_rezervacija_korisnici_rezervacija1_idx` (`RezervacijaId`),
-  KEY `fk_rezervacija_korisnici_korisnik1_idx` (`KorisnikId`),
-  CONSTRAINT `fk_rezervacija_korisnici_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rezervacija_korisnici_rezervacija1` FOREIGN KEY (`RezervacijaId`) REFERENCES `rezervacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rezervacija_korisnici`
---
--- ORDER BY:  `RezervacijaId`,`KorisnikId`
-
-LOCK TABLES `rezervacija_korisnici` WRITE;
-/*!40000 ALTER TABLE `rezervacija_korisnici` DISABLE KEYS */;
-INSERT INTO `rezervacija_korisnici` (`RezervacijaId`, `KorisnikId`, `DatumRezervacije`) VALUES (1,1,'2019-10-15'),(1,2,'2019-10-14');
-/*!40000 ALTER TABLE `rezervacija_korisnici` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -285,7 +259,7 @@ CREATE TABLE `smjestaj` (
 
 LOCK TABLES `smjestaj` WRITE;
 /*!40000 ALTER TABLE `smjestaj` DISABLE KEYS */;
-INSERT INTO `smjestaj` (`Id`, `DestinacijaId`, `Naziv`, `Opis`, `Adresa`, `Slika`) VALUES (1,2,'Four Seasons Hotel George V','Hotel obuhvata vrhunske spa tretmane, restorane nagrađene Mišlenovim zvezdicama i privatne terase sa veličanstvenim pogledom na Pariz.','31 Avenue George V',NULL),(2,1,'Sofie Apartments','Apartmani Sofie se nalaze na 5 minuta vožnje od Katedrale Sv. Stefana i na 5 minuta hoda od Bulevara Ring.','Kegelgasse 20',NULL),(3,3,'Villa Maria','Luksuzno opremljena villa nedaleko od centra grada.','Svetog Save 24',NULL);
+INSERT INTO `smjestaj` (`Id`, `DestinacijaId`, `Naziv`, `Opis`, `Adresa`, `Slika`) VALUES (1,2,'Four Seasons Hotel George V','Hotel obuhvata vrhunske spa tretmane, restorane nagrađene Mišlenovim zvezdicama i privatne terase sa veličanstvenim pogledom na Pariz.','31 Avenue George V','https://q-cf.bstatic.com/images/hotel/max1024x768/137/137519245.jpg'),(2,1,'Sofie Apartments','Apartmani Sofie se nalaze na 5 minuta vožnje od Katedrale Sv. Stefana i na 5 minuta hoda od Bulevara Ring.','Kegelgasse 20','https://q-cf.bstatic.com/images/hotel/max1024x768/946/94619515.jpg'),(3,3,'Hotel Palace','Hotel Palace smješten je na glavnom trgu u zgradi koja je uvrštena u nacionalnu baštinu.','Kralja Petra I. Karađorđevića 60','https://r-cf.bstatic.com/images/hotel/max1024x768/188/18805752.jpg');
 /*!40000 ALTER TABLE `smjestaj` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-15 15:30:22
+-- Dump completed on 2019-10-16 13:48:20

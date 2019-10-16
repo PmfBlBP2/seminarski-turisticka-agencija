@@ -61,8 +61,9 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`korisnik` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `Ime` VARCHAR(1024) NOT NULL,
   `Prezime` VARCHAR(1024) NOT NULL,
-  `Email` VARCHAR(1024) NULL DEFAULT NULL,
   `DatumRodjenja` DATE NOT NULL,
+  `Email` VARCHAR(1024) NULL DEFAULT NULL,
+  `BrojTelefona` VARCHAR(45) NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `Id_UNIQUE` (`Id` ASC))
 ENGINE = InnoDB
@@ -192,42 +193,24 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`rezervacija` ;
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` INT(11) NOT NULL,
-  `BrojOsoba` INT(11) NULL DEFAULT NULL,
-  `Iznos` DECIMAL NULL,
+  `KorisnikId` INT(11) NOT NULL,
+  `DatumRezervacije` DATETIME NULL,
+  `Iznos` DECIMAL(10,2) NULL,
   PRIMARY KEY (`Id`),
   INDEX `fk_rezervacija_ponuda1_idx` (`PonudaId` ASC),
+  INDEX `fk_rezervacija_korisnik1_idx` (`KorisnikId` ASC),
   CONSTRAINT `fk_rezervacija_ponuda1`
     FOREIGN KEY (`PonudaId`)
     REFERENCES `turisticka_agencija`.`ponuda` (`Id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `turisticka_agencija`.`rezervacija_korisnici`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `turisticka_agencija`.`rezervacija_korisnici` ;
-
-CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija_korisnici` (
-  `RezervacijaId` INT(11) NOT NULL,
-  `KorisnikId` INT(11) NOT NULL,
-  `DatumRezervacije` DATE NULL,
-  PRIMARY KEY (`RezervacijaId`, `KorisnikId`),
-  INDEX `fk_rezervacija_korisnici_rezervacija1_idx` (`RezervacijaId` ASC),
-  INDEX `fk_rezervacija_korisnici_korisnik1_idx` (`KorisnikId` ASC),
-  CONSTRAINT `fk_rezervacija_korisnici_rezervacija1`
-    FOREIGN KEY (`RezervacijaId`)
-    REFERENCES `turisticka_agencija`.`rezervacija` (`Id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rezervacija_korisnici_korisnik1`
+  CONSTRAINT `fk_rezervacija_korisnik1`
     FOREIGN KEY (`KorisnikId`)
     REFERENCES `turisticka_agencija`.`korisnik` (`Id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

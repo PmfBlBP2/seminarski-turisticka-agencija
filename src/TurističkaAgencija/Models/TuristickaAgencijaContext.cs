@@ -22,7 +22,6 @@ namespace TurističkaAgencija.Models
         public virtual DbSet<Ponuda> Ponuda { get; set; }
         public virtual DbSet<Prevoz> Prevoz { get; set; }
         public virtual DbSet<Rezervacija> Rezervacija { get; set; }
-        public virtual DbSet<RezervacijaKorisnici> RezervacijaKorisnici { get; set; }
         public virtual DbSet<Smjestaj> Smjestaj { get; set; }
         public virtual DbSet<TipPrevoza> TipPrevoza { get; set; }
 
@@ -112,6 +111,10 @@ namespace TurističkaAgencija.Models
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.BrojTelefona)
+                    .HasMaxLength(45)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DatumRodjenja).HasColumnType("date");
 
@@ -226,53 +229,31 @@ namespace TurističkaAgencija.Models
             {
                 entity.ToTable("rezervacija", "turisticka_agencija");
 
+                entity.HasIndex(e => e.KorisnikId)
+                    .HasName("fk_rezervacija_korisnik1_idx");
+
                 entity.HasIndex(e => e.PonudaId)
                     .HasName("fk_rezervacija_ponuda1_idx");
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.BrojOsoba).HasColumnType("int(11)");
+                entity.Property(e => e.Iznos).HasColumnType("decimal(10,2)");
 
-                entity.Property(e => e.Iznos).HasColumnType("decimal(10,0)");
+                entity.Property(e => e.KorisnikId).HasColumnType("int(11)");
 
                 entity.Property(e => e.PonudaId).HasColumnType("int(11)");
+
+                entity.HasOne(d => d.Korisnik)
+                    .WithMany(p => p.Rezervacija)
+                    .HasForeignKey(d => d.KorisnikId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_rezervacija_korisnik1");
 
                 entity.HasOne(d => d.Ponuda)
                     .WithMany(p => p.Rezervacija)
                     .HasForeignKey(d => d.PonudaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_rezervacija_ponuda1");
-            });
-
-            modelBuilder.Entity<RezervacijaKorisnici>(entity =>
-            {
-                entity.HasKey(e => new { e.RezervacijaId, e.KorisnikId });
-
-                entity.ToTable("rezervacija_korisnici", "turisticka_agencija");
-
-                entity.HasIndex(e => e.KorisnikId)
-                    .HasName("fk_rezervacija_korisnici_korisnik1_idx");
-
-                entity.HasIndex(e => e.RezervacijaId)
-                    .HasName("fk_rezervacija_korisnici_rezervacija1_idx");
-
-                entity.Property(e => e.RezervacijaId).HasColumnType("int(11)");
-
-                entity.Property(e => e.KorisnikId).HasColumnType("int(11)");
-
-                entity.Property(e => e.DatumRezervacije).HasColumnType("date");
-
-                entity.HasOne(d => d.Korisnik)
-                    .WithMany(p => p.RezervacijaKorisnici)
-                    .HasForeignKey(d => d.KorisnikId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_rezervacija_korisnici_korisnik1");
-
-                entity.HasOne(d => d.Rezervacija)
-                    .WithMany(p => p.RezervacijaKorisnici)
-                    .HasForeignKey(d => d.RezervacijaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_rezervacija_korisnici_rezervacija1");
             });
 
             modelBuilder.Entity<Smjestaj>(entity =>
