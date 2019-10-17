@@ -25,15 +25,14 @@ namespace TurističkaAgencija.Models
         public virtual DbSet<Smjestaj> Smjestaj { get; set; }
         public virtual DbSet<TipPrevoza> TipPrevoza { get; set; }
 
-        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=;database=turisticka_agencija");
             }
         }
-        */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -227,6 +226,8 @@ namespace TurističkaAgencija.Models
 
             modelBuilder.Entity<Rezervacija>(entity =>
             {
+                entity.HasKey(e => new { e.PonudaId, e.KorisnikId });
+
                 entity.ToTable("rezervacija", "turisticka_agencija");
 
                 entity.HasIndex(e => e.KorisnikId)
@@ -235,13 +236,11 @@ namespace TurističkaAgencija.Models
                 entity.HasIndex(e => e.PonudaId)
                     .HasName("fk_rezervacija_ponuda1_idx");
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.Iznos).HasColumnType("decimal(10,2)");
+                entity.Property(e => e.PonudaId).HasColumnType("int(11)");
 
                 entity.Property(e => e.KorisnikId).HasColumnType("int(11)");
 
-                entity.Property(e => e.PonudaId).HasColumnType("int(11)");
+                entity.Property(e => e.Iznos).HasColumnType("decimal(10,2)");
 
                 entity.HasOne(d => d.Korisnik)
                     .WithMany(p => p.Rezervacija)

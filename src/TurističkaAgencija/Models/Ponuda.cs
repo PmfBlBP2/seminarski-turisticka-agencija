@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace TurističkaAgencija.Models
 {
@@ -16,15 +15,10 @@ namespace TurističkaAgencija.Models
         public int DestinacijaId { get; set; }
         public int PrevozId { get; set; }
         public string Naziv { get; set; }
-        [DataType(DataType.Date)]
         public DateTime DatumKreiranja { get; set; }
-        [DataType(DataType.Date)]
         public DateTime Pocetak { get; set; }
-        [DataType(DataType.Date)]
         public DateTime Kraj { get; set; }
-
         public decimal Cijena { get; set; }
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Broj mijesta je cio broj")]
         public int BrojMijesta { get; set; }
 
         public virtual Destinacija Destinacija { get; set; }

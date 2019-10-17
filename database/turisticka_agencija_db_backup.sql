@@ -115,7 +115,7 @@ CREATE TABLE `korisnik` (
   `BrojTelefona` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com',NULL),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com',NULL),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL);
+INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com','+387 66 219 745'),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com','+387 65 311 051'),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL);
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `ponuda` (
 
 LOCK TABLES `ponuda` WRITE;
 /*!40000 ALTER TABLE `ponuda` DISABLE KEYS */;
-INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci','2019-10-15','2019-10-25','2019-10-27',55.50,50),(4,2,2,4,'Test','2019-10-15','2019-10-26','2019-10-31',240.00,35);
+INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci','2019-10-15','2019-10-25','2019-10-27',55.50,50);
 /*!40000 ALTER TABLE `ponuda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,27 +208,26 @@ DROP TABLE IF EXISTS `rezervacija`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rezervacija` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` int(11) NOT NULL,
   `KorisnikId` int(11) NOT NULL,
   `DatumRezervacije` datetime DEFAULT NULL,
   `Iznos` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
+  PRIMARY KEY (`PonudaId`,`KorisnikId`),
   KEY `fk_rezervacija_ponuda1_idx` (`PonudaId`),
   KEY `fk_rezervacija_korisnik1_idx` (`KorisnikId`),
   CONSTRAINT `fk_rezervacija_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rezervacija_ponuda1` FOREIGN KEY (`PonudaId`) REFERENCES `ponuda` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rezervacija`
 --
--- ORDER BY:  `Id`
+-- ORDER BY:  `PonudaId`,`KorisnikId`
 
 LOCK TABLES `rezervacija` WRITE;
 /*!40000 ALTER TABLE `rezervacija` DISABLE KEYS */;
-INSERT INTO `rezervacija` (`Id`, `PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (2,1,1,'2019-10-16 00:00:00',1350.00);
+INSERT INTO `rezervacija` (`PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (1,1,'2019-10-16 00:00:00',1350.00),(2,2,'2019-10-15 00:00:00',430.00);
 /*!40000 ALTER TABLE `rezervacija` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,4 +304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-16 13:48:20
+-- Dump completed on 2019-10-17 18:03:26

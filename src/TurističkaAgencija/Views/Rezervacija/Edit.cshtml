@@ -4,44 +4,34 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h2>Izmjena ponude: <span class="text-primary">@ViewBag.PonudaNaziv</span> za korisnika: <span class="text-primary">@ViewBag.KorisnikIme</span></h2>
 
-<h4>Rezervacija</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="PonudaId" />
+            <input type="hidden" asp-for="KorisnikId" />
             <div class="form-group">
-                <label asp-for="PonudaId" class="control-label"></label>
-                <select asp-for="PonudaId" class="form-control" asp-items="ViewBag.PonudaId"></select>
-                <span asp-validation-for="PonudaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KorisnikId" class="control-label"></label>
-                <select asp-for="KorisnikId" class="form-control" asp-items="ViewBag.KorisnikId"></select>
-                <span asp-validation-for="KorisnikId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DatumRezervacije" class="control-label"></label>
+                <label asp-for="DatumRezervacije" class="control-label">Datum rezervacije</label>
                 <input asp-for="DatumRezervacije" class="form-control" />
                 <span asp-validation-for="DatumRezervacije" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Iznos" class="control-label"></label>
-                <input asp-for="Iznos" class="form-control" />
+                <input asp-for="Iznos" class="form-control" readonly/>
                 <span asp-validation-for="Iznos" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Sačuvaj" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="@Url.Action("Index", "Rezervacija", new { ponudaId = Model.PonudaId})">Pregled rezervacija za ponudu: @ViewBag.PonudaNaziv</a>
 </div>
 
 @section Scripts {

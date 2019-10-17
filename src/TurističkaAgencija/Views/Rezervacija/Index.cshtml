@@ -4,11 +4,22 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@if (ViewBag.ErrMsg != "")
+{
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @ViewBag.ErrMsg
+            </div>
+        </div>
+    </div>
+    
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h2>Pregled rezervacija za ponudu: <span class="text-primary">@ViewBag.PonudaNaziv</span></h2>
+<hr />
+
 <table class="table">
     <thead>
         <tr>
@@ -28,26 +39,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.DatumRezervacije.Value.Date.ToShortDateString()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ponuda.Naziv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Korisnik.Ime) @Html.DisplayFor(modelItem => item.Korisnik.Prezime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Iznos) KM
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DatumRezervacije.Value.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ponuda.Naziv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Korisnik.Ime) @Html.DisplayFor(modelItem => item.Korisnik.Prezime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Iznos) KM
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Rezervacija", new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId})">Izmijeni</a> |
+                    @Html.ActionLink(
+                        "Obrisi",
+                        "Remove",
+                        "Rezervacija",
+                        new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId },
+                        new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<a class="btn btn-primary" href="@Url.Action("Create", "Rezervacija", new { ponudaId = ViewBag.PonudaId})">Nova rezervacija</a>
+<a class="btn btn-outline-success" href="@Url.Action("Index", "Ponuda")">Pregled ponuda</a>

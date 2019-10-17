@@ -191,14 +191,13 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `turisticka_agencija`.`rezervacija` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija` (
-  `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` INT(11) NOT NULL,
   `KorisnikId` INT(11) NOT NULL,
   `DatumRezervacije` DATETIME NULL,
   `Iznos` DECIMAL(10,2) NULL,
-  PRIMARY KEY (`Id`),
   INDEX `fk_rezervacija_ponuda1_idx` (`PonudaId` ASC),
   INDEX `fk_rezervacija_korisnik1_idx` (`KorisnikId` ASC),
+  PRIMARY KEY (`PonudaId`, `KorisnikId`),
   CONSTRAINT `fk_rezervacija_ponuda1`
     FOREIGN KEY (`PonudaId`)
     REFERENCES `turisticka_agencija`.`ponuda` (`Id`)
