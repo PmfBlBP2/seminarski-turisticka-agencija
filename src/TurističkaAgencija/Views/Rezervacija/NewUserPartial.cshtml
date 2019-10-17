@@ -1,0 +1,27 @@
+﻿@model TurističkaAgencija.Models.Rezervacija
+
+<div class="form-group">
+    <label asp-for="Korisnik.Ime" class="control-label"></label>
+    <input asp-for="Korisnik.Ime" class="form-control" />
+    <span asp-validation-for="Korisnik.Ime" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Korisnik.Prezime" class="control-label"></label>
+    <input asp-for="Korisnik.Prezime" class="form-control" />
+    <span asp-validation-for="Korisnik.Prezime" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Korisnik.DatumRodjenja" class="control-label">Datum rođenja</label>
+    <input asp-for="Korisnik.DatumRodjenja" class="form-control" />
+    <span asp-validation-for="Korisnik.DatumRodjenja" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Korisnik.Email" class="control-label"></label>
+    <input asp-for="Korisnik.Email" class="form-control" />
+    <span asp-validation-for="Korisnik.Email" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Korisnik.BrojTelefona" class="control-label">Broj telefona</label>
+    <input asp-for="Korisnik.BrojTelefona" class="form-control" />
+    <span asp-validation-for="Korisnik.BrojTelefona" class="text-danger"></span>
+</div>

@@ -21,12 +21,15 @@
                      src="@Html.DisplayFor(modelItem => item.Destinacija.Slika)"
                      alt="@Html.DisplayFor(modelItem => item.Destinacija.Grad)" />
                 <p></p>
-                <a class="btn btn-outline-primary btn-lg btn-block" href="@Url.Action("Index","RezervacijaKorisnici")">Rezerviši</a>
+                <a class="btn btn-outline-primary btn-lg btn-block"
+                   href="@Url.Action("Create","Rezervacija", new { ponudaId = item.Id })">Rezerviši</a>
                 <p></p>
+                <a class="btn btn-outline-success btn-sm"
+                   href="@Url.Action("Index","Rezervacija", new { ponudaId = item.Id })">Pregled rezervacija</a>
 
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a class="btn btn-outline-danger" asp-action="Edit" asp-route-id="@item.Id">Izmijeni ponudu</a>
+                    <a class="btn btn-sm btn-outline-danger" asp-action="Edit" asp-route-id="@item.Id">Izmijeni ponudu</a>
                 }
 
             </div>

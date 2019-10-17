@@ -4,43 +4,53 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h2>Rezervacija putovanja: <span class="text-primary">@Model.Ponuda.Naziv</span></h2>
 
-<h4>Rezervacija</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PonudaId" class="control-label"></label>
-                <select asp-for="PonudaId" class ="form-control" asp-items="ViewBag.PonudaId"></select>
+            <input type="hidden" asp-for="PonudaId" />
+            <div class="form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="postojeci" checked>Postojeći korisnik
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="KorisnikId" class="control-label"></label>
-                <select asp-for="KorisnikId" class ="form-control" asp-items="ViewBag.KorisnikId"></select>
+            <div class="form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optradio" id="novi">Novi korisnik
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="DatumRezervacije" class="control-label"></label>
-                <input asp-for="DatumRezervacije" class="form-control" />
-                <span asp-validation-for="DatumRezervacije" class="text-danger"></span>
+            <div style="margin-bottom: 10px;"></div>
+            <div id="korisnik">
+                <partial name="ExistingUserPartial" />
             </div>
+            
             <div class="form-group">
-                <label asp-for="Iznos" class="control-label"></label>
-                <input asp-for="Iznos" class="form-control" />
-                <span asp-validation-for="Iznos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Rezerviši" class="btn btn-primary" />
+                <a class="btn btn-outline-danger" asp-controller="Ponuda" asp-action="Index">Odustani</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    window.onload = function () {
+        var postojeci = document.getElementById('postojeci');
+        var novi = document.getElementById('novi');
+
+        postojeci.onclick = function () {
+            $("#korisnik").empty();
+            $("#korisnik").load("ExistingUserPartial");
+        }
+        novi.onclick = function () {
+            $("#korisnik").empty();
+            $("#korisnik").load("NewUserPartial");
+        }
+    }   
+</script>
 }
