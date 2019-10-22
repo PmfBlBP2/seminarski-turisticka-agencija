@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TurističkaAgencija.Models
 {
@@ -11,6 +12,8 @@ namespace TurističkaAgencija.Models
         }
 
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Morate unijeti naziv kompanije")]
         public string Naziv { get; set; }
         public string Grad { get; set; }
 

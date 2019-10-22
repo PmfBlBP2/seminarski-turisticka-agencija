@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TurističkaAgencija.Models
 {
@@ -11,6 +12,7 @@ namespace TurističkaAgencija.Models
         }
 
         public int Id { get; set; }
+        [Required(ErrorMessage = "Morate unijeti naziv")]
         public string Naziv { get; set; }
 
         public virtual ICollection<Destinacija> Destinacija { get; set; }
