@@ -115,7 +115,7 @@ CREATE TABLE `korisnik` (
   `BrojTelefona` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com','+387 66 219 745'),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com','+387 65 311 051'),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL);
+INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com','+387 66 219 745'),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com','+387 65 311 051'),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL),(6,'Pero','Peric','1993-01-25','perop@gmail.com','+387 66 123 456');
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,6 +142,7 @@ CREATE TABLE `ponuda` (
   `DestinacijaId` int(11) NOT NULL,
   `PrevozId` int(11) NOT NULL,
   `Naziv` varchar(1024) NOT NULL,
+  `Opis` varchar(5000) DEFAULT NULL,
   `DatumKreiranja` date NOT NULL,
   `Pocetak` date NOT NULL,
   `Kraj` date NOT NULL,
@@ -155,7 +156,7 @@ CREATE TABLE `ponuda` (
   CONSTRAINT `fk_ponuda_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_prevoz1` FOREIGN KEY (`PrevozId`) REFERENCES `prevoz` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_smjestaj1` FOREIGN KEY (`SmjestajId`) REFERENCES `smjestaj` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +166,7 @@ CREATE TABLE `ponuda` (
 
 LOCK TABLES `ponuda` WRITE;
 /*!40000 ALTER TABLE `ponuda` DISABLE KEYS */;
-INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci','2019-10-15','2019-10-25','2019-10-27',55.50,50);
+INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `Opis`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','Pariz je grad koji se razvijao u koncentričnim krugovima, grad sa mnoštvom kulturnih spomenika i galerija koje čuvaju neprocenjivo umetničko blago, grad u kome se meša duh užurbanosti i opuštenosti. Elegantan grad na reci Seni, pored koje se slikari okupljaju kako bi pokušali da na platno prenesu svoja osećanja. Trg Konkord predstavlja najsavršenije urbanističko rešenje na svetu  i dokaz funkcionalnosti prestonice Francuske jer su u jednoj ravni sagradjene Ajfelova kula, Trijumfalna kapija i katedrala Notr Dam. Uživajmo u božanstvenoj arhitekturi i duhu minulih vekova koji se kombinuju sa najnovijim svetskim trendovima. Dozvolimo sebi malo romantike i mnogo dobrog provoda i pozitivne energije sa milionima ljudi na ulicama!','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','Božićni ili adventski sajmovi u srednjoj Europi imaju dugu tradiciju. Austrijski su posebno omiljeni, a najpoznatiji među njima svakako je bečki adventski sajam. Riječ je o pravoj maloj zemlji čuda, koja svake godine privuče više od tri milijuna posjetitelja.','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci',NULL,'2019-10-15','2019-10-25','2019-10-27',55.50,50),(5,3,2,3,'Test Ponuda',NULL,'2019-10-17','2019-10-19','2019-10-24',240.00,50);
 /*!40000 ALTER TABLE `ponuda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +228,7 @@ CREATE TABLE `rezervacija` (
 
 LOCK TABLES `rezervacija` WRITE;
 /*!40000 ALTER TABLE `rezervacija` DISABLE KEYS */;
-INSERT INTO `rezervacija` (`PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (1,1,'2019-10-16 00:00:00',1350.00),(2,2,'2019-10-15 00:00:00',430.00);
+INSERT INTO `rezervacija` (`PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (1,1,'2019-10-17 00:00:00',1350.00),(2,2,'2019-10-15 00:00:00',430.00),(3,1,'2019-10-17 20:44:04',55.50),(3,2,'2019-10-17 20:44:16',55.50),(5,1,'2019-10-17 19:25:02',240.00),(5,3,'2019-10-17 19:19:39',240.00),(5,4,'2019-10-17 20:09:48',240.00),(5,6,'2019-10-17 19:15:38',240.00);
 /*!40000 ALTER TABLE `rezervacija` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-17 18:03:26
+-- Dump completed on 2019-10-22 17:32:51

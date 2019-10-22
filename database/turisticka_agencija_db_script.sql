@@ -156,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`ponuda` (
   `DestinacijaId` INT(11) NOT NULL,
   `PrevozId` INT(11) NOT NULL,
   `Naziv` VARCHAR(1024) NOT NULL,
+  `Opis` NVARCHAR(5000) NULL,
   `DatumKreiranja` DATE NOT NULL,
   `Pocetak` DATE NOT NULL,
   `Kraj` DATE NOT NULL,

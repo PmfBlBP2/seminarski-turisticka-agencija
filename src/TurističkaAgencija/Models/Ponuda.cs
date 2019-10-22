@@ -15,6 +15,7 @@ namespace TurističkaAgencija.Models
         public int DestinacijaId { get; set; }
         public int PrevozId { get; set; }
         public string Naziv { get; set; }
+        public string Opis { get; set; }
         public DateTime DatumKreiranja { get; set; }
         public DateTime Pocetak { get; set; }
         public DateTime Kraj { get; set; }

@@ -25,7 +25,6 @@ namespace TurističkaAgencija.Models
         public virtual DbSet<Smjestaj> Smjestaj { get; set; }
         public virtual DbSet<TipPrevoza> TipPrevoza { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -156,6 +155,10 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.Naziv)
                     .IsRequired()
                     .HasMaxLength(1024)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Opis)
+                    .HasMaxLength(5000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Pocetak).HasColumnType("date");
