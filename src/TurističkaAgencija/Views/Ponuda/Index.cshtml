@@ -2,16 +2,85 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-@model IEnumerable<TurističkaAgencija.Models.Ponuda>
+@model TurističkaAgencija.Models.Home
 
 @{
     ViewData["Title"] = "Index";
 }
+<!-- Home -->
 
+<div class="home">
+    <!-- Home Slider -->
+    <div class="home_slider_container">
+        <div class="owl-carousel owl-theme home_slider">
+            <!-- Slider Item -->
+            <div class="owl-item home_slider_item">
+                <div class="home_slider_background" style="background-image:url(Assets/images/home_slider.jpg)"></div>
+
+                <div class="home_slider_content text-center">
+                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                        <h1>discover</h1>
+                        <h1>the world</h1>
+                        <div class="button home_slider_button"><div class="button_bcg"></div><a href="#">explore now<span></span><span></span><span></span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Search -->
+
+<div class="search">
+    <!-- Search Contents -->
+    <div class="container fill_height">
+        <div class="row fill_height">
+            <div class="col fill_height">
+                <!-- Search Tabs -->
+                <div class="search_tabs_container">
+                    <div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                        <div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                            <img src="images/search.png" alt="">
+                            <span>Pretraga</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search Panel -->
+                <div class="search_panel active">
+                    <form asp-action="Search" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="search_item">
+                            <div>Destinacija</div>
+                            <input asp-for="@Model.Pretraga.Destinacija" class="destination search_input" placeholder="Npr. Banja Luka">
+                        </div>
+                        <div class="search_item">
+                            <div>Datum od</div>
+                            <input asp-for="@Model.Pretraga.DatumOd" class="check_in search_input" value="@ViewBag.minDatum">
+                        </div>
+                        <div class="search_item">
+                            <div>Datum do</div>
+                            <input asp-for="@Model.Pretraga.DatumDo" class="check_out search_input" value="@ViewBag.maxDatum">
+                        </div>
+                        <div class="search_item">
+                            <div>Cijena od</div>
+                            <input asp-for="@Model.Pretraga.CijenaOd" class="check_out search_input" placeholder="Npr. @ViewBag.minCijena">
+                        </div>
+                        <div class="search_item">
+                            <div>Cijena do</div>
+                            <input asp-for="@Model.Pretraga.CijenaDo" class="check_out search_input" placeholder="Npr. @ViewBag.maxCijena">
+                        </div>
+
+                        <button type="submit" class="button search_button">search<span></span><span></span><span></span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <h1>Ponuda putovanja <a class="btn btn-outline-info" asp-controller="Ponuda" asp-action="Create">Dodaj ponudu</a></h1>
 <hr />
-
-@foreach (var item in Model)
+@foreach (var item in Model.Ponuda)
 {
     <div class="container">
         <div class="row">

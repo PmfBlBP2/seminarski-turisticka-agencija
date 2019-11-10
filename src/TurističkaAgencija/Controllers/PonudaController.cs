@@ -21,13 +21,147 @@ namespace TurističkaAgencija.Controllers
         // GET: Ponuda
         public async Task<IActionResult> Index()
         {
-            var turistickaAgencijaContext = _context.Ponuda
+            var turistickaAgencijaContext = await _context.Ponuda
                 .Include(p => p.Destinacija)
                 .Include(p => p.Prevoz)
                     .Include(p => p.Prevoz.Kompanija)
                     .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj);
-            return View(await turistickaAgencijaContext.ToListAsync());
+                .Include(p => p.Smjestaj)
+                .ToListAsync().ConfigureAwait(false);
+
+            var minCijena = _context.Ponuda
+                .OrderBy(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var maxCijena = _context.Ponuda
+                .OrderByDescending(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var minDatum = _context.Ponuda
+                .OrderBy(x => x.Pocetak)
+                .Select(x => x.Pocetak)
+                .FirstOrDefault();
+
+            var maxDatum = _context.Ponuda
+                .OrderByDescending(x => x.Kraj)
+                .Select(x => x.Kraj)
+                .FirstOrDefault();
+
+            ViewBag.minCijena = minCijena;
+            ViewBag.maxCijena = maxCijena;
+            ViewBag.minDatum = minDatum.Year + "-" + minDatum.Month.ToString("00") + "-" + minDatum.Day.ToString("00");
+            ViewBag.maxDatum = maxDatum.Year + "-" + maxDatum.Month.ToString("00") + "-" + maxDatum.Day.ToString("00");
+
+            Home home = new Home
+            {
+                Ponuda = turistickaAgencijaContext
+            };
+            return View(home);
+        }
+
+        public async Task<IActionResult> Search(Pretraga pretraga)
+        {
+            if(pretraga == null)
+            {
+                return NotFound();
+            }
+            var rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .ToListAsync().ConfigureAwait(false);
+
+            if (pretraga.Destinacija != null && pretraga.CijenaOd != null && pretraga.CijenaDo != null)
+            {
+                rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(x => x.Destinacija.Grad.ToLower().Trim() == pretraga.Destinacija.ToLower().Trim() && 
+                    DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
+                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
+                    x.Cijena >= pretraga.CijenaOd &&
+                    x.Cijena <= pretraga.CijenaDo)
+                .ToListAsync().ConfigureAwait(false);
+            }
+            else if (pretraga.CijenaOd != null && pretraga.CijenaDo != null)
+            {
+                rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
+                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
+                    x.Cijena >= pretraga.CijenaOd &&
+                    x.Cijena <= pretraga.CijenaDo)
+                .ToListAsync().ConfigureAwait(false);
+            }
+            else if (pretraga.CijenaOd != null)
+            {
+                rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
+                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
+                    x.Cijena >= pretraga.CijenaOd)
+                .ToListAsync().ConfigureAwait(false);
+            }
+            else if(pretraga.CijenaDo != null)
+            {
+                rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
+                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
+                    x.Cijena <= pretraga.CijenaDo)
+                .ToListAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                rezultat = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
+                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0)
+                .ToListAsync().ConfigureAwait(false);
+            }
+            
+
+            var minCijena = pretraga.CijenaOd;
+
+            var maxCijena = pretraga.CijenaDo;
+
+            var minDatum = pretraga.DatumOd;
+
+            var maxDatum = pretraga.DatumDo;
+
+            ViewBag.minCijena = minCijena;
+            ViewBag.maxCijena = maxCijena;
+            ViewBag.minDatum = minDatum.Year + "-" + minDatum.Month.ToString("00") + "-" + minDatum.Day.ToString("00");
+            ViewBag.maxDatum = maxDatum.Year + "-" + maxDatum.Month.ToString("00") + "-" + maxDatum.Day.ToString("00");
+
+            Home home = new Home
+            {
+                Ponuda = rezultat
+            };
+            return View(home);
         }
 
         // GET: Ponuda/Details/5
