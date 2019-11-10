@@ -12,7 +12,6 @@ namespace TurističkaAgencija.Models
         [DataType(DataType.Date)]
         public DateTime? DatumRezervacije { get; set; }
 
-        [DataType(DataType.Currency)]
         public decimal? Iznos { get; set; }
 
         public virtual Korisnik Korisnik { get; set; }

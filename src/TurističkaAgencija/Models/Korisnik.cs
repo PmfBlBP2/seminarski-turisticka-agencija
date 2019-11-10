@@ -26,8 +26,7 @@ namespace TurističkaAgencija.Models
         [EmailAddress(ErrorMessage = "Unesite važeću email adresu")]
         public string Email { get; set; }
 
-        [RegularExpression(@"^[+][0-9]+$", ErrorMessage = "Unesite broj telefona u obliku +387 12 345 678")]
-        [StringLength(17, MinimumLength = 11, ErrorMessage = "Unesite broj telefona u obliku +387 12 345 678")]
+        [RegularExpression(@"^([\+ 00]?[0-9]{1,3}[- /]?[0-9]{2,3}[- /]?[0-9]{3,4}[- /]?[0-9]{3,4})$", ErrorMessage = "Unesite broj telefona u obliku +387 12 345 678")]
         public string BrojTelefona { get; set; }
 
         public virtual ICollection<Rezervacija> Rezervacija { get; set; }

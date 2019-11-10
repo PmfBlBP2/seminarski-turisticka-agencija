@@ -41,6 +41,7 @@ namespace TurističkaAgencija.Controllers
             ViewBag.PonudaId = ponudaId;
 
             var errMsg = TempData["ErrorMessage"] as string;
+
             if(errMsg != null)
             {
                 ViewBag.ErrMsg = errMsg;
@@ -54,7 +55,13 @@ namespace TurističkaAgencija.Controllers
         }
         public async Task<IActionResult> ExistingUserPartial()
         {
-            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime");
+            var korisnik = _context.Korisnik
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Podaci = x.Ime.ToString() + " " + x.Prezime.ToString() + " [" + x.Email.ToString() + "]"
+                });
+            ViewData["KorisnikId"] = new SelectList(korisnik, "Id", "Podaci");
             return PartialView();
         }
         public async Task<IActionResult> NewUserPartial()
@@ -94,8 +101,14 @@ namespace TurističkaAgencija.Controllers
                 .Where(x => x.Id == ponudaId)
                 .FirstOrDefault();
             ViewBag.PonudaNaziv = ponuda.Naziv;
-
-            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime");
+            ViewBag.PonudaId = ponudaId;
+            var korisnik = _context.Korisnik
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Podaci = x.Ime.ToString() + " " + x.Prezime.ToString() + " [" + x.Email.ToString() + "]"
+                });
+            ViewData["KorisnikId"] = new SelectList(korisnik, "Id", "Podaci");
 
             return View();
         }
@@ -112,16 +125,22 @@ namespace TurističkaAgencija.Controllers
                 return NotFound();
             }
             int korisnikId = rezervacija.KorisnikId;
-            var korisnik = await _context.Korisnik.FindAsync(korisnikId).ConfigureAwait(false);
-            var ponuda = await _context.Ponuda.FindAsync(rezervacija.PonudaId).ConfigureAwait(false);
-            if(ponuda == null)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
+            // Ako unosimo novog korisnika u bazu, tada cemo njega prvo dodati u bazu Korisnik
+            if(korisnikId == 0)
             {
-                if (rezervacija.Korisnik != null)
+                // Provjeravamo da li se vec u tabeli Korisnik nalazi korisnik sa istim imenom, prezimenom i Email adresom
+                var existingUser = _context.Korisnik
+                    .Where(x => x.Ime.ToLower().Trim() == rezervacija.Korisnik.Ime.ToLower().Trim() &&
+                        x.Prezime.ToLower().Trim() == rezervacija.Korisnik.Prezime.ToLower().Trim() &&
+                        x.Email.ToLower().Trim() == x.Email.ToLower().Trim())
+                    .FirstOrDefault();
+
+                if(existingUser != null)
+                {
+                    korisnikId = existingUser.Id;
+                }
+                else
                 {
                     _context.Add(rezervacija.Korisnik);
                     await _context.SaveChangesAsync().ConfigureAwait(false);
@@ -129,34 +148,51 @@ namespace TurističkaAgencija.Controllers
                     var noviKorisnik = _context.Korisnik
                         .OrderByDescending(x => x.Id)
                         .FirstOrDefault();
-
-                    rezervacija.KorisnikId = noviKorisnik.Id;
-                    rezervacija.Iznos = ponuda.Cijena;
-                    rezervacija.DatumRezervacije = DateTime.Now;
-
-                    _context.Add(rezervacija);
-                    await _context.SaveChangesAsync().ConfigureAwait(false);
-                    return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId});
-                }
-                else
-                {
-                    var test = _context.Rezervacija
-                        .Where(e => e.PonudaId == ponudaId && e.KorisnikId == korisnikId)
-                        .FirstOrDefault();
-                    if (test != null)
-                    {
-                        TempData["ErrorMessage"] = "Korisnik " + korisnik.Ime + " " + korisnik.Prezime +
-                            " je već rezervisao/la ponudu: " + ponuda.Naziv;
-                        return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
-                    }
-                    rezervacija.Iznos = ponuda.Cijena;
-                    rezervacija.DatumRezervacije = DateTime.Now;
-                    _context.Add(rezervacija);
-                    await _context.SaveChangesAsync().ConfigureAwait(false);
-                    return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
+                    korisnikId = noviKorisnik.Id;
                 }
             }
-            ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
+
+            var korisnik = await _context.Korisnik.FindAsync(korisnikId).ConfigureAwait(false);
+            if (korisnik == null)
+            {
+                return NotFound();
+            }
+            rezervacija.Korisnik = korisnik;
+
+            var ponuda = await _context.Ponuda.FindAsync(rezervacija.PonudaId).ConfigureAwait(false);
+            if(ponuda == null)
+            {
+                return NotFound();
+            }
+
+            var rezervacijaPostoji = _context.Rezervacija
+                .Where(e => e.PonudaId == ponudaId && e.KorisnikId == korisnikId)
+                .FirstOrDefault();
+            if (rezervacijaPostoji != null)
+            {
+                TempData["ErrorMessage"] = "Korisnik " + korisnik.Ime + " " + korisnik.Prezime + " [" + korisnik.Email + "]" +
+                    " je već rezervisao/la ponudu: " + ponuda.Naziv + "!";
+                return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
+            }
+
+            if(ModelState.IsValid)
+            {
+                rezervacija.KorisnikId = korisnikId;
+                rezervacija.Iznos = ponuda.Cijena;
+                rezervacija.DatumRezervacije = DateTime.Now;
+
+                _context.Add(rezervacija);
+                await _context.SaveChangesAsync().ConfigureAwait(false);
+                return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
+            }
+
+            var korisnikList = _context.Korisnik
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Podaci = x.Ime.ToString() + " " + x.Prezime.ToString() + " [" + x.Email.ToString() + "]"
+                });
+            ViewData["KorisnikId"] = new SelectList(korisnikList, "Id", "Podaci", rezervacija.KorisnikId);
             return View(rezervacija);
         }
 
