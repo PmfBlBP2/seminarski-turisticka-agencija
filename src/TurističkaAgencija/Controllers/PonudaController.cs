@@ -54,13 +54,61 @@ namespace TurističkaAgencija.Controllers
             ViewBag.minDatum = minDatum.Year + "-" + minDatum.Month.ToString("00") + "-" + minDatum.Day.ToString("00");
             ViewBag.maxDatum = maxDatum.Year + "-" + maxDatum.Month.ToString("00") + "-" + maxDatum.Day.ToString("00");
 
+            var topTri = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .OrderByDescending(x => x.Id)
+                .Take(3)
+                .ToListAsync().ConfigureAwait(false);
+
             Home home = new Home
             {
-                Ponuda = turistickaAgencijaContext
+                Ponuda = turistickaAgencijaContext,
+                TopTri = topTri
             };
             return View(home);
         }
 
+        public IActionResult Search()
+        {
+            var minCijena = _context.Ponuda
+                .OrderBy(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var maxCijena = _context.Ponuda
+                .OrderByDescending(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var minDatum = _context.Ponuda
+                .OrderBy(x => x.Pocetak)
+                .Select(x => x.Pocetak)
+                .FirstOrDefault();
+
+            var maxDatum = _context.Ponuda
+                .OrderByDescending(x => x.Kraj)
+                .Select(x => x.Kraj)
+                .FirstOrDefault();
+
+            ViewBag.minCijena = minCijena;
+            ViewBag.maxCijena = maxCijena;
+            ViewBag.minDatum = minDatum.Year + "-" + minDatum.Month.ToString("00") + "-" + minDatum.Day.ToString("00");
+            ViewBag.maxDatum = maxDatum.Year + "-" + maxDatum.Month.ToString("00") + "-" + maxDatum.Day.ToString("00");
+
+            Home home = new Home
+            {
+                Ponuda = null,
+                Pretraga = null
+            };
+            return View(home);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(Pretraga pretraga)
         {
             if(pretraga == null)

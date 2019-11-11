@@ -10,11 +10,15 @@
     <environment include="Development">
         <link rel="stylesheet" type="text/css" href="~/Assets/styles/bootstrap4/bootstrap.min.css">
         <link href="~/Assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="~/Assets/styles/offers_styles.css">
+        <link rel="stylesheet" type="text/css" href="~/Assets/styles/offers_responsive.css">
         <link rel="stylesheet" type="text/css" href="~/Assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
         <link rel="stylesheet" type="text/css" href="~/Assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="~/Assets/plugins/OwlCarousel2-2.2.1/animate.css">
         <link rel="stylesheet" type="text/css" href="~/Assets/styles/main_styles.css">
         <link rel="stylesheet" type="text/css" href="~/Assets/styles/responsive.css">
+
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -68,6 +72,10 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="content_search ml-lg-0 ml-auto"></div>
+                            <div class="hamburger">
+                                <i class="fa fa-bars trans_200"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,33 +87,38 @@
                 <div class="menu_close_container"><div class="menu_close"></div></div>
                 <div class="logo menu_logo"><a href="#"><img src="~/Assets/images/logo.png" alt=""></a></div>
                 <ul>
-                    <li class="menu_item"><a href="#">home</a></li>
-                    <li class="menu_item"><a href="about.html">about us</a></li>
-                    <li class="menu_item"><a href="offers.html">offers</a></li>
-                    <li class="menu_item"><a href="blog.html">news</a></li>
-                    <li class="menu_item"><a href="contact.html">contact</a></li>
+                    <li class="menu_item">
+                        <a asp-area="" asp-controller="Ponuda" asp-action="Index">Početna</a>
+                    </li>
+                    <li class="menu_item">
+                        <a asp-area="" asp-controller="Destinacija" asp-action="Index">Destinacije</a>
+                    </li>
+                    <li class="menu_item">
+                        <a asp-area="" asp-controller="Smjestaj" asp-action="Index">Smještaj</a>
+                    </li>
                 </ul>
             </div>
         </div>
-    </div>
-    @RenderBody()
 
+        @RenderBody()
 
-    <!-- Copyright -->
-    <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col order-lg-1 order-2  ">
-                    <div class="copyright_content d-flex flex-row align-items-center">
-                        <div>
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> Sva prava zadržana | Turistička Agencija
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col order-lg-1 order-2  ">
+                        <div class="copyright_content d-flex flex-row align-items-center">
+                            <div>
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> Sva prava zadržana | Turistička Agencija
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
