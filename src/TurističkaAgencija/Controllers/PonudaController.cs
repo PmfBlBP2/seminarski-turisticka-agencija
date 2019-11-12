@@ -111,94 +111,61 @@ namespace TurističkaAgencija.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(Pretraga pretraga)
         {
-            if(pretraga == null)
+            if (pretraga == null)
             {
                 return NotFound();
             }
-            var rezultat = await _context.Ponuda
+            var rezultat = _context.Ponuda
                 .Include(p => p.Destinacija)
                 .Include(p => p.Prevoz)
                     .Include(p => p.Prevoz.Kompanija)
                     .Include(p => p.Prevoz.TipPrevoza)
                 .Include(p => p.Smjestaj)
-                .ToListAsync().ConfigureAwait(false);
+                .AsQueryable();
 
-            if (pretraga.Destinacija != null && pretraga.CijenaOd != null && pretraga.CijenaDo != null)
+            rezultat = rezultat.Where(x => x.Id > 0);
+
+            if (!string.IsNullOrEmpty(pretraga.Destinacija))
             {
-                rezultat = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                    .Include(p => p.Prevoz.Kompanija)
-                    .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj)
-                .Where(x => x.Destinacija.Grad.ToLower().Trim() == pretraga.Destinacija.ToLower().Trim() && 
-                    DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
-                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
-                    x.Cijena >= pretraga.CijenaOd &&
-                    x.Cijena <= pretraga.CijenaDo)
-                .ToListAsync().ConfigureAwait(false);
+                rezultat = rezultat.Where(x => x.Destinacija.Grad.ToLower().Contains(pretraga.Destinacija.ToLower()));
             }
-            else if (pretraga.CijenaOd != null && pretraga.CijenaDo != null)
+            if (pretraga.DatumOd.HasValue)
             {
-                rezultat = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                    .Include(p => p.Prevoz.Kompanija)
-                    .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj)
-                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
-                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
-                    x.Cijena >= pretraga.CijenaOd &&
-                    x.Cijena <= pretraga.CijenaDo)
-                .ToListAsync().ConfigureAwait(false);
+                rezultat = rezultat.Where(x => DateTime.Compare(x.Pocetak, (DateTime)pretraga.DatumOd) >= 0);
             }
-            else if (pretraga.CijenaOd != null)
+            if (pretraga.DatumDo.HasValue)
             {
-                rezultat = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                    .Include(p => p.Prevoz.Kompanija)
-                    .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj)
-                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
-                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
-                    x.Cijena >= pretraga.CijenaOd)
-                .ToListAsync().ConfigureAwait(false);
+                rezultat = rezultat.Where(x => DateTime.Compare(x.Kraj, (DateTime)pretraga.DatumDo) <= 0);
             }
-            else if(pretraga.CijenaDo != null)
+            if (pretraga.CijenaOd.HasValue)
             {
-                rezultat = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                    .Include(p => p.Prevoz.Kompanija)
-                    .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj)
-                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
-                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0 &&
-                    x.Cijena <= pretraga.CijenaDo)
-                .ToListAsync().ConfigureAwait(false);
+                rezultat = rezultat.Where(x => x.Cijena >= pretraga.CijenaOd);
             }
-            else
+            if (pretraga.CijenaDo.HasValue)
             {
-                rezultat = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                    .Include(p => p.Prevoz.Kompanija)
-                    .Include(p => p.Prevoz.TipPrevoza)
-                .Include(p => p.Smjestaj)
-                .Where(x => DateTime.Compare(x.Pocetak, pretraga.DatumOd) >= 0 &&
-                    DateTime.Compare(x.Kraj, pretraga.DatumDo) <= 0)
-                .ToListAsync().ConfigureAwait(false);
+                rezultat = rezultat.Where(x => x.Cijena <= pretraga.CijenaDo);
             }
+            rezultat.ToList();
+
             
-
             var minCijena = pretraga.CijenaOd;
 
             var maxCijena = pretraga.CijenaDo;
 
-            var minDatum = pretraga.DatumOd;
+            var minDatum = new DateTime();
 
-            var maxDatum = pretraga.DatumDo;
+            if (pretraga.DatumOd.HasValue)
+            {
+                minDatum = (DateTime)pretraga.DatumOd;
+            }
+
+            var maxDatum = new DateTime();
+            
+            if(pretraga.DatumDo.HasValue)
+            {
+                maxDatum = (DateTime)pretraga.DatumDo;
+            }
+            
 
             ViewBag.minCijena = minCijena;
             ViewBag.maxCijena = maxCijena;

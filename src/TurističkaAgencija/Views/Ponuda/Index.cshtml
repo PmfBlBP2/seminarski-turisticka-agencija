@@ -15,12 +15,12 @@
         <div class="owl-carousel owl-theme home_slider">
             <!-- Slider Item -->
             <div class="owl-item home_slider_item">
-                <div class="home_slider_background" style="background-image:url(Assets/images/home_slider.jpg)"></div>
+                <div class="home_slider_background" style="background-image:url(/Assets/images/home_slider.jpg)"></div>
 
                 <div class="home_slider_content text-center">
                     <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
-                        <h1>discover</h1>
-                        <h1>the world</h1>
+                        <h1>Istraži</h1>
+                        <h1>svijet</h1>
                     </div>
                 </div>
             </div>
@@ -84,13 +84,13 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2 class="intro_title text-center">We have the best tours</h2>
+                <h2 class="intro_title text-center">Najnovija ponuda putovanja</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <div class="intro_text text-center">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. </p>
+                    <p>Posljednje dodata putovanja u bazu podataka</p>
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
 <div class="offers">
     <div class="container">
         <div class="row">
-            <div class="col text-center" style="padding-top:50px;">
+            <div class="col text-center">
                 <h2 class="section_title">Ponuda putovanja</h2>
             </div>
         </div>
@@ -201,99 +201,9 @@
     </div>
 </div>
 
-@foreach (var item in Model.Ponuda)
-{
-    <div class="container">
-        <div class="row">
-            <div class="col-5">
-                <h2 class="text-primary ">@item.Naziv</h2>
-                <img class="popImg img-thumbnail img-hover" width="430"
-                     src="@Html.DisplayFor(modelItem => item.Destinacija.Slika)"
-                     alt="@Html.DisplayFor(modelItem => item.Destinacija.Grad)" />
-                <p></p>
-                <a class="btn btn-outline-primary btn-lg btn-block"
-                   href="@Url.Action("Create","Rezervacija", new { ponudaId = item.Id })">Rezerviši</a>
-                <p></p>
-                <a class="btn btn-outline-success btn-sm"
-                   href="@Url.Action("Index","Rezervacija", new { ponudaId = item.Id })">Pregled rezervacija</a>
-
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <a class="btn btn-sm btn-outline-danger" asp-action="Edit" asp-route-id="@item.Id">Izmijeni ponudu</a>
-                }
-
-            </div>
-            <div class="col-7">
-                <div class="row">
-                    <div class="col">
-                        <p><strong>Ponuda kreirana: </strong>@item.DatumKreiranja.ToShortDateString()</p>
-                        <p><strong>Datum polaska: </strong>@item.Pocetak.ToShortDateString()</p>
-                        <p><strong>Datum povratka: </strong>@item.Kraj.ToShortDateString()</p>
-                        <p><strong>Broj slobodnih mijesta: </strong>@item.BrojMijesta</p>
-                        <hr style="width: 100px; margin-left: 0px;" />
-                        <p><strong>Prevoz:</strong></p>
-                        <div class="container">
-                            <p><strong>Tip: </strong>@item.Prevoz.TipPrevoza.Naziv</p>
-                            <p><strong>Opis: </strong>@item.Prevoz.Opis</p>
-                            <p><strong>Prevoznik: </strong>@item.Prevoz.Kompanija.Naziv, @item.Prevoz.Kompanija.Grad</p>
-                        </div>
-                        <hr style="width: 100px; margin-left: 0px;" />
-                        <h4><strong>Cijena: </strong>@item.Cijena KM</h4>
-                    </div>
-                    <div class="col">
-                        <p><strong>Destinacija:</strong></p>
-                        <div class="container">
-                            <p><strong>Grad: </strong>@item.Destinacija.Grad</p>
-                            <p><strong>Opis: </strong>@item.Destinacija.Opis</p>
-                        </div>
-                        <hr style="width: 100px; margin-left: 0px;" />
-                        <p><strong>Smjestaj:</strong></p>
-                        <div class="container">
-                            <p><strong>Naziv: </strong>@item.Smjestaj.Naziv</p>
-                            <p><strong>Adresa: </strong>@item.Smjestaj.Adresa</p>
-                            <p><strong>Opis: </strong>@item.Smjestaj.Opis</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <hr />
-}
-
-<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="" class="imagepreview" style="width: 100%;">
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
     <script src="~/Assets/js/offers_custom.js"></script>
     <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
     <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
-    <script>
-        $(function () {
-            $('.popImg').on('click', function () {
-                $('.imagepreview').attr('src', $(this).attr('src'));
-                $('#exampleModalCenterTitle').text($(this).attr('alt'));
-                $('#imagemodal').modal('show');
-            });
-        });
-    </script>
-    <style>
-        .img-hover {
-            cursor: pointer;
-        }
-    </style>
 }

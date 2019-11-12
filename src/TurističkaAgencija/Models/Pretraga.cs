@@ -11,12 +11,10 @@ namespace TurističkaAgencija.Models
         public string Destinacija { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Molimo odaberite početni datum")]
-        public DateTime DatumOd { get; set; }
+        public DateTime? DatumOd { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Molimo odaberite krajnji datum")]
-        public DateTime DatumDo { get; set; }
+        public DateTime? DatumDo { get; set; }
 
         [RegularExpression(@"^[0-9]+([.][0-9]{1,2})?$", ErrorMessage = "Unesite cijenu u obliku 123.45")]
         public decimal? CijenaOd { get; set; }
