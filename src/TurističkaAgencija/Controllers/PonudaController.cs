@@ -187,17 +187,51 @@ namespace TurističkaAgencija.Controllers
                 return NotFound();
             }
 
+            var minCijena = _context.Ponuda
+                .OrderBy(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var maxCijena = _context.Ponuda
+                .OrderByDescending(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var minDatum = _context.Ponuda
+                .OrderBy(x => x.Pocetak)
+                .Select(x => x.Pocetak)
+                .FirstOrDefault();
+
+            var maxDatum = _context.Ponuda
+                .OrderByDescending(x => x.Kraj)
+                .Select(x => x.Kraj)
+                .FirstOrDefault();
+
+            ViewBag.minCijena = minCijena;
+            ViewBag.maxCijena = maxCijena;
+            ViewBag.minDatum = minDatum.Year + "-" + minDatum.Month.ToString("00") + "-" + minDatum.Day.ToString("00");
+            ViewBag.maxDatum = maxDatum.Year + "-" + maxDatum.Month.ToString("00") + "-" + maxDatum.Day.ToString("00");
+
             var ponuda = await _context.Ponuda
                 .Include(p => p.Destinacija)
+                    .ThenInclude(p => p.Drzava)
                 .Include(p => p.Prevoz)
+                .Include(p => p.Prevoz)
+                    .ThenInclude(p => p.TipPrevoza)
+                .Include(p => p.Prevoz)
+                    .ThenInclude(p => p.Kompanija)
                 .Include(p => p.Smjestaj)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id).ConfigureAwait(false);
             if (ponuda == null)
             {
                 return NotFound();
             }
 
-            return View(ponuda);
+            Home home = new Home
+            {
+                JednaPonuda = ponuda
+            };
+            return View(home);
         }
 
         // GET: Ponuda/Create

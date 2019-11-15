@@ -79,7 +79,7 @@
                 <a href="@Url.Action("Create", "Rezervacija", new { ponudaId = ViewBag.PonudaId})">Nova rezervacija<span></span><span></span><span></span></a>
             </div>
 
-            <a class="form_submit_button button trans_200" href="@Url.Action("Index", "Ponuda")" style="margin-bottom:15px; margin-left:10px;">Pregled ponuda<span></span><span></span><span></span></a>
+            <a class="form_submit_button button trans_200" href="@Url.Action("Details", "Ponuda", new { id = ViewBag.PonudaId})" style="margin-bottom:15px; margin-left:10px;">Pogledaj ponudu<span></span><span></span><span></span></a>
 
         </div>
     </div>

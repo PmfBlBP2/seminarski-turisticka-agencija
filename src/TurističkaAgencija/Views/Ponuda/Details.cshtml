@@ -1,66 +1,255 @@
-﻿@model TurističkaAgencija.Models.Ponuda
+﻿@model TurističkaAgencija.Models.Home
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/single_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Pregled jedne ponude</div>
+    </div>
+</div>
 
-<div>
-    <h4>Ponuda</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Naziv)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Naziv)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatumKreiranja)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatumKreiranja)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pocetak)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pocetak)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Kraj)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Kraj)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cijena)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cijena)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Destinacija)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Destinacija.Grad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prevoz)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prevoz.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Smjestaj)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Smjestaj.Naziv)
-        </dd>
-    </dl>
+<!-- Offers -->
+
+<div class="listing">
+
+    <!-- Search -->
+
+    <div class="search">
+        <div class="search_inner">
+
+            <!-- Search Contents -->
+
+            <div class="container fill_height no-padding">
+                <div class="row fill_height no-margin">
+                    <div class="col fill_height no-padding">
+
+                        <!-- Search Tabs -->
+                        <div class="search_tabs_container">
+                            <div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                                <div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                                    <img src="~/Assets/images/search.png" alt="">
+                                    <span>Pretraga</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Panel -->
+                        <div class="search_panel active">
+                            <form asp-action="Search" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="search_item">
+                                    <div>Destinacija</div>
+                                    <input asp-for="@Model.Pretraga.Destinacija" class="destination search_input" placeholder="Npr. Banja Luka">
+                                </div>
+                                <div class="search_item">
+                                    <div>Datum od</div>
+                                    <input asp-for="@Model.Pretraga.DatumOd" class="check_in search_input" value="@ViewBag.minDatum">
+                                </div>
+                                <div class="search_item">
+                                    <div>Datum do</div>
+                                    <input asp-for="@Model.Pretraga.DatumDo" class="check_out search_input" value="@ViewBag.maxDatum">
+                                </div>
+                                <div class="search_item">
+                                    <div>Cijena od</div>
+                                    <input asp-for="@Model.Pretraga.CijenaOd" class="check_out search_input" placeholder="Npr. @ViewBag.minCijena">
+                                </div>
+                                <div class="search_item">
+                                    <div>Cijena do</div>
+                                    <input asp-for="@Model.Pretraga.CijenaDo" class="check_out search_input" placeholder="Npr. @ViewBag.maxCijena">
+                                </div>
+
+                                <button type="submit" class="button search_button" style="margin-bottom:30px;">Pretraži<span></span><span></span><span></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single_listing">
+
+                    <!-- Hotel Info -->
+
+                    <div class="hotel_info">
+
+                        <!-- Title -->
+                        <div class="hotel_title_container d-flex flex-lg-row flex-column">
+                            <div class="hotel_title_content">
+                                <h1 class="hotel_title">@Model.JednaPonuda.Naziv</h1>
+                                <div class="rating_r rating_r_5 hotel_rating">
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                </div>
+                                <div class="hotel_location">@Model.JednaPonuda.Smjestaj.Adresa, @Model.JednaPonuda.Destinacija.Grad, @Model.JednaPonuda.Destinacija.Drzava.Naziv</div>
+                            </div>
+                            <div class="hotel_title_button ml-lg-auto text-lg-right">
+                                <div class="button book_button trans_200">
+                                    <a href="@Url.Action("Create","Rezervacija", new { ponudaId = @Model.JednaPonuda.Id })">Rezerviši<span></span><span></span><span></span></a>
+                                </div>
+                                <div class="hotel_map_link_container">
+                                    <div class="hotel_map_link"><a href="@Url.Action("Index","Rezervacija", new { ponudaId = Model.JednaPonuda.Id })">Pregled rezervacija</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Listing Image -->
+
+                        <div class="hotel_image">
+                            <img src="@Model.JednaPonuda.Destinacija.Slika" alt="">
+                        </div>
+
+
+                        <!-- Hotel Info Tags -->
+
+                        <div class="hotel_info_tags">
+                            <ul class="hotel_icons_list">
+                                <li class="hotel_icons_item"><img src="~/Assets/images/post.png" alt=""></li>
+                                <li class="hotel_icons_item"><img src="~/Assets/images/compass.png" alt=""></li>
+                                <li class="hotel_icons_item"><img src="~/Assets/images/bicycle.png" alt=""></li>
+                                <li class="hotel_icons_item"><img src="~/Assets/images/sailboat.png" alt=""></li>
+                            </ul>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <p><strong>Ponuda kreirana: </strong><br />@Model.JednaPonuda.DatumKreiranja.ToShortDateString()</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <p><strong>Datum polaska: </strong><br />@Model.JednaPonuda.Pocetak.ToShortDateString()</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <p><strong>Datum povratka: </strong><br />@Model.JednaPonuda.Kraj.ToShortDateString()</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p><strong>Broj slobodnih mijesta: </strong><br />@Model.JednaPonuda.BrojMijesta</p>
+                            </div>
+                        </div>
+
+
+                        <!-- Hotel Info Text -->
+
+                        <div class="hotel_info_text" style="margin-top: 15px;">
+                            @Model.JednaPonuda.Opis
+                        </div>
+
+                    </div>
+
+                    <!-- Destinacija -->
+                    <div class="rooms">
+                        <div class="room">
+                            <p><strong>Destinacija:</strong></p>
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="room_image">
+                                        <img class="popImg img-hover" src="@Model.JednaPonuda.Destinacija.Slika" alt="@Model.JednaPonuda.Destinacija.Grad, @Model.JednaPonuda.Destinacija.Drzava.Naziv">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="room_content">
+                                        <div class="room_title">@Model.JednaPonuda.Destinacija.Grad, @Model.JednaPonuda.Destinacija.Drzava.Naziv </div>
+                                        <div class="room_text">@Model.JednaPonuda.Destinacija.Opis</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Smjestaj -->
+                    <div class="rooms">
+                        <div class="room">
+                            <p><strong>Smjestaj:</strong></p>
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="room_image">
+                                        <img class="popImg img-hover" src="@Model.JednaPonuda.Smjestaj.Slika" alt="@Model.JednaPonuda.Smjestaj.Naziv">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="room_content">
+                                        <div class="room_title">@Model.JednaPonuda.Smjestaj.Naziv</div>
+                                        <div class="room_text">@Model.JednaPonuda.Smjestaj.Opis</div>
+                                        <div class="room_price">@Model.JednaPonuda.Smjestaj.Adresa, @Model.JednaPonuda.Destinacija.Grad, @Model.JednaPonuda.Destinacija.Drzava.Naziv</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prevoz -->
+                    <div class="rooms">
+                        <div class="room">
+                            <p><strong>Prevoz:</strong></p>
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="room_image">
+                                        <img class="popImg img-hover" src="@Model.JednaPonuda.Smjestaj.Slika" alt="@Model.JednaPonuda.Prevoz.TipPrevoza.Naziv, @Model.JednaPonuda.Prevoz.Kompanija.Naziv">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="room_content">
+                                        <div class="room_title">@Model.JednaPonuda.Prevoz.TipPrevoza.Naziv</div>
+                                        <div class="room_price">Prevoznik: @Model.JednaPonuda.Prevoz.Kompanija.Naziv, @Model.JednaPonuda.Prevoz.Kompanija.Grad</div>
+                                        <div class="room_text">@Model.JednaPonuda.Prevoz.Opis</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+
+    <script src="~/Assets/js/single_listing_custom.js"></script>
+    <script src="~/Assets/plugins/easing/easing.js"></script>
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGdRWYrT3DfuTYgWpJ-gJV4lr_QcZpMGY&callback=initMap"
+            type="text/javascript"></script>
+    <script>
+        $(function () {
+            $('.popImg').on('click', function () {
+                $('.imagepreview').attr('src', $(this).attr('src'));
+                $('#exampleModalCenterTitle').text($(this).attr('alt'));
+                $('#imagemodal').modal('show');
+            });
+        });
+    </script>
+    <style>
+        .img-hover {
+            cursor: pointer;
+        }
+    </style>
+}

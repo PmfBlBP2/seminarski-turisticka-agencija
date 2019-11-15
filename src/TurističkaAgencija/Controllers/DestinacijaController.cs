@@ -25,6 +25,33 @@ namespace TurističkaAgencija.Controllers
             return View(await turistickaAgencijaContext.ToListAsync());
         }
 
+        public IActionResult Search (int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var rezultat = _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .Where(p => p.DestinacijaId == id)
+                .ToList();
+
+            ViewBag.Grad = _context.Destinacija.Where(d => d.Id == id).Select(d => d.Grad).FirstOrDefault();
+
+            Home home = new Home
+            {
+                Ponuda = rezultat
+            };
+            return View(home);
+        }
+
+
+
         // GET: Destinacija/Details/5
         public async Task<IActionResult> Details(int? id)
         {
