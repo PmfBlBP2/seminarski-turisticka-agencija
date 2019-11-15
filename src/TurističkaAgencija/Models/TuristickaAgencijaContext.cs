@@ -25,6 +25,15 @@ namespace TurističkaAgencija.Models
         public virtual DbSet<Smjestaj> Smjestaj { get; set; }
         public virtual DbSet<TipPrevoza> TipPrevoza { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=;database=turisticka_agencija");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -165,6 +174,10 @@ namespace TurističkaAgencija.Models
 
                 entity.Property(e => e.PrevozId).HasColumnType("int(11)");
 
+                entity.Property(e => e.Slika)
+                    .HasMaxLength(10000)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.SmjestajId).HasColumnType("int(11)");
 
                 entity.HasOne(d => d.Destinacija)
@@ -201,6 +214,10 @@ namespace TurističkaAgencija.Models
                 entity.Property(e => e.KompanijaId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Opis)
+                    .HasMaxLength(10000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Slika)
                     .HasMaxLength(10000)
                     .IsUnicode(false);
 
