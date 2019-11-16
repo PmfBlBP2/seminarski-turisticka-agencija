@@ -119,33 +119,13 @@ namespace TurističkaAgencija.Controllers
             return View(korisnik);
         }
 
-        // GET: Korisnik/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var korisnik = await _context.Korisnik.FindAsync(id).ConfigureAwait(false);
 
-            var korisnik = await _context.Korisnik
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (korisnik == null)
-            {
-                return NotFound();
-            }
-
-            return View(korisnik);
-        }
-
-        // POST: Korisnik/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var korisnik = await _context.Korisnik.FindAsync(id);
             _context.Korisnik.Remove(korisnik);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("Index", "Korisnik");
         }
 
         private bool KorisnikExists(int id)

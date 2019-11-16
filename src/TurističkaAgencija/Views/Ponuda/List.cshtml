@@ -1,13 +1,14 @@
-﻿@model IEnumerable<TurističkaAgencija.Models.Korisnik>
+﻿@model IEnumerable<TurističkaAgencija.Models.Ponuda>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List";
 }
+
 
 <div class="home">
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/contact_background.jpg"></div>
     <div class="home_content">
-        <div class="home_title">Pregled korisnika</div>
+        <div class="home_title">Pregled ponuda</div>
         <h1 style="text-align: center; font-weight: 700;" class="text-uppercase text-light">@ViewBag.PonudaNaziv</h1>
     </div>
 </div>
@@ -19,19 +20,31 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Ime)
+                            @Html.DisplayNameFor(model => model.Naziv)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Prezime)
+                            Datum kreiranja
                         </th>
                         <th>
-                            Datum rođenja
+                            @Html.DisplayNameFor(model => model.Pocetak)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model.Kraj)
                         </th>
                         <th>
-                            Broj telefona
+                            @Html.DisplayNameFor(model => model.Cijena)
+                        </th>
+                        <th>
+                            Broj mijesta
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Destinacija)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Prevoz)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Smjestaj)
                         </th>
                         <th></th>
                     </tr>
@@ -41,30 +54,38 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Ime)
+                                @Html.DisplayFor(modelItem => item.Naziv)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Prezime)
-                            </td>
-                            @{
-                                var date = item.DatumRodjenja.ToShortDateString();
-                                <td>
-                                    @date
-                                </td>
-                            }
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
+                                @Html.DisplayFor(modelItem => item.DatumKreiranja)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.BrojTelefona)
+                                @Html.DisplayFor(modelItem => item.Pocetak)
                             </td>
-
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Kraj)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cijena)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BrojMijesta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Destinacija.Grad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Prevoz.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Smjestaj.Adresa)
+                            </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Izmijeni</a> |
                                 @Html.ActionLink(
                                     "Obriši",
                                     "Remove",
-                                    "Korisnik",
+                                    "Ponuda",
                                     new { id = item.Id },
                                     new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
                             </td>
@@ -74,7 +95,7 @@
             </table>
             <div class="button home_slider_button">
                 <div class="button_bcg"></div>
-                <a href="@Url.Action("Create", "Korisnik")">Dodaj novog korisnika<span></span><span></span><span></span></a>
+                <a href="@Url.Action("Create", "Ponuda")">Dodaj novu ponudu<span></span><span></span><span></span></a>
             </div>
         </div>
     </div>

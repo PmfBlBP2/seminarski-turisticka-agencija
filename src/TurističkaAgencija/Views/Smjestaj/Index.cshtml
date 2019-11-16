@@ -7,11 +7,6 @@
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
     <div class="home_content">
         <div class="home_title">Smještaj</div>
-        <div class="row justify-content-center">
-            <div class="button book_button trans_200">
-                <a asp-action="Create">Dodaj novi smještaj<span></span><span></span><span></span></a>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -42,13 +37,9 @@
                                     <p class="offers_text">@item.Adresa, @item.Destinacija.Grad</p>
                                     <p class="offers_text">@item.Opis</p>
                                     <br />
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="offers_link">
-                                                <a asp-action="Edit" asp-route-id="@item.Id">Izmijeni</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <br />
+                                    <br />
+                                    <br />
 
                                 </div>
                             </div>

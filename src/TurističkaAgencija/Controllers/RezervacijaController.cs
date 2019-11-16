@@ -175,12 +175,21 @@ namespace TurističkaAgencija.Controllers
                 return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
             }
 
+            if(ponuda.BrojMijesta == 0)
+            {
+                TempData["ErrorMessage"] = "Nema više slobodnih mijesta za ovu ponudu!";
+                return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
+            }
+
             if(ModelState.IsValid)
             {
                 rezervacija.KorisnikId = korisnikId;
                 rezervacija.Iznos = ponuda.Cijena;
                 rezervacija.DatumRezervacije = DateTime.Now;
-
+                
+                ponuda.BrojMijesta -= 1;
+                _context.Update(ponuda);
+                
                 _context.Add(rezervacija);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
@@ -219,6 +228,8 @@ namespace TurističkaAgencija.Controllers
                 .Where(x => x.Id == korisnikId)
                 .FirstOrDefault();
             ViewBag.KorisnikIme = (korisnik.Ime + " " + korisnik.Prezime);
+
+            ViewBag.PonudaIdEdit = ponudaId;
 
             ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv", rezervacija.PonudaId);

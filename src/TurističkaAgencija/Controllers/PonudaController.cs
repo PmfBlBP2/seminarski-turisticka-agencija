@@ -72,6 +72,19 @@ namespace TurističkaAgencija.Controllers
             return View(home);
         }
 
+        public async Task<IActionResult> List ()
+        {
+            var turistickaAgencijaContext = await _context.Ponuda
+                .Include(p => p.Destinacija)
+                .Include(p => p.Prevoz)
+                    .Include(p => p.Prevoz.Kompanija)
+                    .Include(p => p.Prevoz.TipPrevoza)
+                .Include(p => p.Smjestaj)
+                .ToListAsync().ConfigureAwait(false);
+
+            return View(turistickaAgencijaContext);
+        }
+
         public IActionResult Search()
         {
             var minCijena = _context.Ponuda
@@ -248,7 +261,7 @@ namespace TurističkaAgencija.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
+        public async Task<IActionResult> Create([Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Opis,Slika,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
         {
             if (ModelState.IsValid)
             {
@@ -287,7 +300,7 @@ namespace TurističkaAgencija.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,DatumKreiranja,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SmjestajId,DestinacijaId,PrevozId,Naziv,Opis,Slika,DatumKreiranja,Pocetak,Kraj,Cijena,BrojMijesta")] Ponuda ponuda)
         {
             if (id != ponuda.Id)
             {
@@ -320,36 +333,13 @@ namespace TurističkaAgencija.Controllers
             return View(ponuda);
         }
 
-        // GET: Ponuda/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var ponuda = await _context.Ponuda.FindAsync(id).ConfigureAwait(false);
 
-            var ponuda = await _context.Ponuda
-                .Include(p => p.Destinacija)
-                .Include(p => p.Prevoz)
-                .Include(p => p.Smjestaj)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ponuda == null)
-            {
-                return NotFound();
-            }
-
-            return View(ponuda);
-        }
-
-        // POST: Ponuda/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var ponuda = await _context.Ponuda.FindAsync(id);
             _context.Ponuda.Remove(ponuda);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("List", "Ponuda");
         }
 
         private bool PonudaExists(int id)

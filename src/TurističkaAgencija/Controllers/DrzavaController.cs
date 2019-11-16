@@ -114,34 +114,13 @@ namespace TurističkaAgencija.Controllers
             }
             return View(drzava);
         }
-
-        // GET: Drzava/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var drzava = await _context.Drzava.FindAsync(id).ConfigureAwait(false);
 
-            var drzava = await _context.Drzava
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (drzava == null)
-            {
-                return NotFound();
-            }
-
-            return View(drzava);
-        }
-
-        // POST: Drzava/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var drzava = await _context.Drzava.FindAsync(id);
             _context.Drzava.Remove(drzava);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("Index", "Drzava");
         }
 
         private bool DrzavaExists(int id)

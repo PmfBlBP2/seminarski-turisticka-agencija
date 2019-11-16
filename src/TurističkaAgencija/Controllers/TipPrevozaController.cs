@@ -115,33 +115,13 @@ namespace TurističkaAgencija.Controllers
             return View(tipPrevoza);
         }
 
-        // GET: TipPrevozas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var tipPrevoza = await _context.TipPrevoza.FindAsync(id).ConfigureAwait(false);
 
-            var tipPrevoza = await _context.TipPrevoza
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipPrevoza == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipPrevoza);
-        }
-
-        // POST: TipPrevozas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var tipPrevoza = await _context.TipPrevoza.FindAsync(id);
             _context.TipPrevoza.Remove(tipPrevoza);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("Index", "TipPrevoza");
         }
 
         private bool TipPrevozaExists(int id)
