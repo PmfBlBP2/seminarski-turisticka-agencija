@@ -8,7 +8,7 @@
     <div class="user_box_login user_box_link">
         <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Izmijeni">Zdravo @User.Identity.Name!</a>
     </div>
-    <div class="user_box_login user_box_link">
+    <div class="user_box_link">
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Ponuda", new { area = "" })">
             <button type="submit" class="btn btn-sm btn-danger">Odjavi se</button>
         </form>

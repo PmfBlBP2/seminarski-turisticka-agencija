@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TurističkaAgencija.Models.Ponuda>
+﻿@model IEnumerable<TurističkaAgencija.Models.Smjestaj>
 
 @{
     ViewData["Title"] = "List";
@@ -8,7 +8,7 @@
 <div class="home">
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/contact_background.jpg"></div>
     <div class="home_content">
-        <div class="home_title">Pregled ponuda</div>
+        <div class="home_title">Pregled smještaja</div>
         <h1 style="text-align: center; font-weight: 700;" class="text-uppercase text-light">@ViewBag.PonudaNaziv</h1>
     </div>
 </div>
@@ -20,33 +20,21 @@
                 <thead>
                     <tr>
                         <th>
+                            @Html.DisplayNameFor(model => model.Slika)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.Naziv)
-                        </th>
-                        <th>
-                            Datum kreiranja
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Pocetak)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Kraj)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cijena)
-                        </th>
-                        <th>
-                            Broj mijesta
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Destinacija)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Prevoz)
+                            @Html.DisplayNameFor(model => model.Adresa)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Smjestaj)
+                        <th style="width: 400px;">
+                            @Html.DisplayNameFor(model => model.Opis)
                         </th>
-                        <th style="width: 140px;"></th>
+                        <th style="width: 150px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,38 +42,26 @@
                     {
                         <tr>
                             <td>
+                                <img class="popImg img-hover" src="@item.Slika" style="width:150px;" alt="@item.Naziv" />
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Naziv)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DatumKreiranja)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Pocetak)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Kraj)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cijena)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.BrojMijesta)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Destinacija.Grad)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Prevoz.Kompanija.Naziv)
+                                @Html.DisplayFor(modelItem => item.Adresa)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Smjestaj.Adresa)
+                                @Html.DisplayFor(modelItem => item.Opis)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Izmijeni</a> |
                                 @Html.ActionLink(
                                     "Obriši",
                                     "Remove",
-                                    "Ponuda",
+                                    "Smjestaj",
                                     new { id = item.Id },
                                     new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
                             </td>
@@ -93,9 +69,26 @@
                     }
                 </tbody>
             </table>
+
             <div class="button home_slider_button">
                 <div class="button_bcg"></div>
-                <a href="@Url.Action("Create", "Ponuda")">Dodaj novu ponudu<span></span><span></span><span></span></a>
+                <a href="@Url.Action("Create", "Smjestaj")">Dodaj novi smjestaj<span></span><span></span><span></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="imagepreview" style="width: 100%;">
             </div>
         </div>
     </div>
@@ -107,5 +100,20 @@
 
     <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
     <script src="~/Assets/js/contact_custom.js"></script>
+
+    <script>
+        $(function () {
+            $('.popImg').on('click', function () {
+                $('.imagepreview').attr('src', $(this).attr('src'));
+                $('#exampleModalCenterTitle').text($(this).attr('alt'));
+                $('#imagemodal').modal('show');
+            });
+        });
+    </script>
+    <style>
+        .img-hover {
+            cursor: pointer;
+        }
+    </style>
 
 }

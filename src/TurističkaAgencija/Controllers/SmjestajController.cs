@@ -25,6 +25,12 @@ namespace TurističkaAgencija.Controllers
             return View(await turistickaAgencijaContext.ToListAsync());
         }
 
+        public async Task<IActionResult> List()
+        {
+            var turistickaAgencijaContext = _context.Smjestaj.Include(s => s.Destinacija);
+            return View(await turistickaAgencijaContext.ToListAsync());
+        }
+
         // GET: Smjestaj/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -121,34 +127,13 @@ namespace TurističkaAgencija.Controllers
             return View(smjestaj);
         }
 
-        // GET: Smjestaj/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var smjestaj = await _context.Smjestaj.FindAsync(id).ConfigureAwait(false);
 
-            var smjestaj = await _context.Smjestaj
-                .Include(s => s.Destinacija)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (smjestaj == null)
-            {
-                return NotFound();
-            }
-
-            return View(smjestaj);
-        }
-
-        // POST: Smjestaj/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var smjestaj = await _context.Smjestaj.FindAsync(id);
             _context.Smjestaj.Remove(smjestaj);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("List", "Smjestaj");
         }
 
         private bool SmjestajExists(int id)

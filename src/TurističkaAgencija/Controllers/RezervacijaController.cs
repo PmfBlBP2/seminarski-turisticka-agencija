@@ -279,7 +279,11 @@ namespace TurističkaAgencija.Controllers
         public async Task<IActionResult> Remove(int ponudaId, int korisnikId)
         {
             var rezervacija = await _context.Rezervacija.FindAsync(ponudaId, korisnikId).ConfigureAwait(false);
- 
+
+            var ponuda = await _context.Ponuda.FindAsync(ponudaId).ConfigureAwait(false);
+            ponuda.BrojMijesta += 1;
+
+            _context.Update(ponuda);
             _context.Rezervacija.Remove(rezervacija);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return RedirectToAction("Index", "Rezervacija", new { ponudaId = rezervacija.PonudaId });

@@ -8,11 +8,6 @@
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
     <div class="home_content">
         <div class="home_title">Destinacije</div>
-        <div class="row justify-content-center">
-            <div class="button book_button trans_200">
-                <a asp-action="Create">Dodaj novu destinaciju<span></span><span></span><span></span></a>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -28,14 +23,14 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="offers_image_container">
-                                    <div class="offers_image_background" style="background-image:url(@item.Slika)"></div>
+                                    <div class="offers_image_background" id="myDiv" style="background-image:url(@item.Slika)"></div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="offers_content">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="offers_price">@item.Grad, @item.Drzava.Naziv</div>
+                                            <div class="offers_price" id="textDiv" title="@item.Grad, @item.Drzava.Naziv">@item.Grad, @item.Drzava.Naziv</div>
                                         </div>
 
                                     </div>
@@ -44,13 +39,8 @@
                                     <br />
                                     <br />
                                     <div class="row">
-                                        <div class="col-md-3 text-center">
-                                            <div class="offers_link"><a asp-action="Search" asp-route-id="@item.Id">Pogledaj ponudu</a></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="offers_link">
-                                                <a asp-action="Edit" asp-route-id="@item.Id">Izmijeni</a>
-                                            </div>
+                                        <div class="col-md-6" style="margin-left: 5px;">
+                                            <div class="offers_link"><a asp-action="Search" asp-route-id="@item.Id">Pogledaj ponudu za ovu destinaciju</a></div>
                                         </div>
                                     </div>
 
@@ -64,40 +54,9 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="" class="imagepreview" style="width: 100%;">
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
     <script src="~/Assets/js/contact_custom.js"></script>
     <script src="~/Assets/js/offers_custom.js"></script>
     <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
-    <script>
-        $(function () {
-            $('.popImg').on('click', function () {
-                $('.imagepreview').attr('src', $(this).attr('src'));
-                $('#exampleModalCenterTitle').text($(this).attr('alt'));
-                $('#imagemodal').modal('show');
-            });
-        });
-    </script>
-    <style>
-        .img-hover {
-            cursor: pointer;
-        }
-    </style>
 }

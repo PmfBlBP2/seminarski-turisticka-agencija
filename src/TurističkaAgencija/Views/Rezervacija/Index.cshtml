@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<TurističkaAgencija.Models.Rezervacija>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -42,7 +45,11 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Iznos)
                         </th>
-                        <th></th>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <th></th>
+                        }
+
                     </tr>
                 </thead>
                 <tbody>
@@ -61,15 +68,20 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Iznos) KM
                             </td>
-                            <td>
-                                <a href="@Url.Action("Edit", "Rezervacija", new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId})">Izmijeni</a> |
-                                @Html.ActionLink(
-                                    "Obriši",
-                                    "Remove",
-                                    "Rezervacija",
-                                    new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId },
-                                    new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
-                            </td>
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <td>
+                                    <a href="@Url.Action("Edit", "Rezervacija", new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId})">Izmijeni</a> |
+                                    @Html.ActionLink(
+                                        "Obriši",
+                                        "Remove",
+                                        "Rezervacija",
+                                        new { ponudaId = item.PonudaId, korisnikId = item.KorisnikId },
+                                        new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
+                                </td>
+                            }
+
                         </tr>
                     }
                 </tbody>
