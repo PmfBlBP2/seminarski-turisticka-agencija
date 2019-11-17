@@ -24,24 +24,6 @@ namespace TurističkaAgencija.Controllers
             return View(await _context.Kompanija.ToListAsync());
         }
 
-        // GET: Kompanija/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kompanija = await _context.Kompanija
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (kompanija == null)
-            {
-                return NotFound();
-            }
-
-            return View(kompanija);
-        }
-
         // GET: Kompanija/Create
         public IActionResult Create()
         {

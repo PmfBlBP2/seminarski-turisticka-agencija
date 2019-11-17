@@ -268,7 +268,7 @@ namespace TurističkaAgencija.Controllers
                 ponuda.DatumKreiranja = DateTime.Now;
                 _context.Add(ponuda);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("List");
             }
             ViewData["DestinacijaId"] = new SelectList(_context.Destinacija, "Id", "Grad", ponuda.DestinacijaId);
             ViewData["PrevozId"] = new SelectList(_context.Prevoz, "Id", "Opis", ponuda.PrevozId);
@@ -325,7 +325,7 @@ namespace TurističkaAgencija.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("List");
             }
             ViewData["DestinacijaId"] = new SelectList(_context.Destinacija, "Id", "Grad", ponuda.DestinacijaId);
             ViewData["PrevozId"] = new SelectList(_context.Prevoz, "Id", "Opis", ponuda.PrevozId);

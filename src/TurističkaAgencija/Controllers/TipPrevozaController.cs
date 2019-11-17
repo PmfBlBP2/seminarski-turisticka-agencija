@@ -24,24 +24,6 @@ namespace TurističkaAgencija.Controllers
             return View(await _context.TipPrevoza.ToListAsync());
         }
 
-        // GET: TipPrevozas/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tipPrevoza = await _context.TipPrevoza
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipPrevoza == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipPrevoza);
-        }
-
         // GET: TipPrevozas/Create
         public IActionResult Create()
         {

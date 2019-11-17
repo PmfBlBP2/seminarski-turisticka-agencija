@@ -25,26 +25,6 @@ namespace TurističkaAgencija.Controllers
             return View(await turistickaAgencijaContext.ToListAsync());
         }
 
-        // GET: Prevoz/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var prevoz = await _context.Prevoz
-                .Include(p => p.Kompanija)
-                .Include(p => p.TipPrevoza)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (prevoz == null)
-            {
-                return NotFound();
-            }
-
-            return View(prevoz);
-        }
-
         // GET: Prevoz/Create
         public IActionResult Create()
         {

@@ -24,24 +24,6 @@ namespace TurističkaAgencija.Controllers
             return View(await _context.Drzava.ToListAsync());
         }
 
-        // GET: Drzava/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var drzava = await _context.Drzava
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (drzava == null)
-            {
-                return NotFound();
-            }
-
-            return View(drzava);
-        }
-
         // GET: Drzava/Create
         public IActionResult Create()
         {

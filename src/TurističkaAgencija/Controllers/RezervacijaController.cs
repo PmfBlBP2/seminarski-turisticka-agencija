@@ -69,26 +69,6 @@ namespace TurističkaAgencija.Controllers
             return PartialView();
         }
 
-        // GET: Rezervacija/Details/5
-        public async Task<IActionResult> Details(int? ponudaId, int? korisnikId)
-        {
-            if (ponudaId == null || korisnikId == null)
-            {
-                return NotFound();
-            }
-
-            var rezervacija = await _context.Rezervacija
-                .Include(r => r.Korisnik)
-                .Include(r => r.Ponuda)
-                .FirstOrDefaultAsync(m => m.PonudaId == ponudaId && m.KorisnikId == korisnikId)
-                .ConfigureAwait(false);
-            if (rezervacija == null)
-            {
-                return NotFound();
-            }
-
-            return View(rezervacija);
-        }
 
         // GET: Rezervacija/Create
         public IActionResult Create(int? ponudaId)

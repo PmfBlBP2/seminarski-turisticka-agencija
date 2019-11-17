@@ -24,28 +24,6 @@ namespace TurističkaAgencija.Controllers
             return View(await _context.Korisnik.ToListAsync());
         }
 
-        // GET: Korisnik/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var korisnik = await _context.Korisnik
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (korisnik == null)
-            {
-                return NotFound();
-            }
-
-            var datum = korisnik.DatumRodjenja.ToShortDateString();
-            ViewBag.Datum = datum;
-
-            return View(korisnik);
-        }
-
         // GET: Korisnik/Create
         public IActionResult Create()
         {

@@ -31,25 +31,6 @@ namespace TurističkaAgencija.Controllers
             return View(await turistickaAgencijaContext.ToListAsync());
         }
 
-        // GET: Smjestaj/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var smjestaj = await _context.Smjestaj
-                .Include(s => s.Destinacija)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (smjestaj == null)
-            {
-                return NotFound();
-            }
-
-            return View(smjestaj);
-        }
-
         // GET: Smjestaj/Create
         public IActionResult Create()
         {
@@ -68,7 +49,7 @@ namespace TurističkaAgencija.Controllers
             {
                 _context.Add(smjestaj);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("List");
             }
             ViewData["DestinacijaId"] = new SelectList(_context.Destinacija, "Id", "Grad", smjestaj.DestinacijaId);
             return View(smjestaj);
@@ -121,7 +102,7 @@ namespace TurističkaAgencija.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("List");
             }
             ViewData["DestinacijaId"] = new SelectList(_context.Destinacija, "Id", "Grad", smjestaj.DestinacijaId);
             return View(smjestaj);

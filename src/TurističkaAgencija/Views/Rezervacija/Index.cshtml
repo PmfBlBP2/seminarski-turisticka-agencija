@@ -4,7 +4,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rezervacije";
 }
 
 <div class="home">
@@ -86,10 +86,14 @@
                     }
                 </tbody>
             </table>
-            <div class="button home_slider_button">
-                <div class="button_bcg"></div>
-                <a href="@Url.Action("Create", "Rezervacija", new { ponudaId = ViewBag.PonudaId})">Nova rezervacija<span></span><span></span><span></span></a>
-            </div>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="button home_slider_button">
+                    <div class="button_bcg"></div>
+                    <a href="@Url.Action("Create", "Rezervacija", new { ponudaId = ViewBag.PonudaId})">Nova rezervacija<span></span><span></span><span></span></a>
+                </div>
+            }
+
 
             <a class="form_submit_button button trans_200" href="@Url.Action("Details", "Ponuda", new { id = ViewBag.PonudaId})" style="margin-bottom:15px; margin-left:10px;">Pogledaj ponudu<span></span><span></span><span></span></a>
 
