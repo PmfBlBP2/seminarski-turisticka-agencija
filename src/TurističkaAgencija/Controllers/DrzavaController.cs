@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,21 +19,17 @@ namespace TurističkaAgencija.Controllers
             _context = context;
         }
 
-        // GET: Drzava
         public async Task<IActionResult> Index()
         {
             return View(await _context.Drzava.ToListAsync());
         }
 
-        // GET: Drzava/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Drzava/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Naziv")] Drzava drzava)
@@ -46,7 +43,7 @@ namespace TurističkaAgencija.Controllers
             return View(drzava);
         }
 
-        // GET: Drzava/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -62,9 +59,6 @@ namespace TurističkaAgencija.Controllers
             return View(drzava);
         }
 
-        // POST: Drzava/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Naziv")] Drzava drzava)
@@ -96,6 +90,8 @@ namespace TurističkaAgencija.Controllers
             }
             return View(drzava);
         }
+
+        [Authorize]
         public async Task<IActionResult> Remove(int id)
         {
             var drzava = await _context.Drzava.FindAsync(id).ConfigureAwait(false);
