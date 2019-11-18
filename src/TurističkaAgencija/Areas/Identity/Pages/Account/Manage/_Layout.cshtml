@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Admin / Profil</div>
+    </div>
+</div>
+
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col">
+                <div class="contact_form_container" style="color: white;">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">Upravljanje nalogom</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <partial name="_ManageNav" />
+                        </div>
+                        <div class="col-md-9">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+}

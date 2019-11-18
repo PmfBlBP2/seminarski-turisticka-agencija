@@ -1,0 +1,68 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Admin / Log in</div>
+    </div>
+</div>
+
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-9">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">Uloguj se preko lokalnog naloga</span></div>
+                    </div>
+                    <form id="account" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Input.Email" style="color: white;"></label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password" style="color: white;">Lozinka</label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Input.RememberMe" style="color: white;">
+                                    <input asp-for="Input.RememberMe" />
+                                    Zapamti me?
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row  justify-content-center">
+                            <div class="form-group">
+                                <button type="submit" id="form_submit_button" class="form_submit_button button">Uloguj se<span></span><span></span><span></span></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <a id="forgot-password" asp-page="./ForgotPassword" style="color: white;">Zaboravljena lozinka?</a>
+                            </p>
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color: white;">Registruj novi nalog</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+}

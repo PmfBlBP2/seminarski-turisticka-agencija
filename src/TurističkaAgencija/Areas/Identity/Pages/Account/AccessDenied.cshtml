@@ -1,0 +1,37 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Pristup zabranjen!";
+}
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Admin / Zaboravljena lozinka</div>
+    </div>
+</div>
+
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="margin-bottom: -30px; margin-top: -30px;">
+                        <h1 class="text-primary">@ViewData["Title"]</h1>
+                        <div class="contact_title"><span class="text-warning">Nemate pristup ovoj stranici.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+}
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">Nemate pristup ovoj stranici.</p>
+</header>

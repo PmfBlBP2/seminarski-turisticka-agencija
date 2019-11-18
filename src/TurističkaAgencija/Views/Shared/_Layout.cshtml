@@ -30,7 +30,8 @@
            (ViewContext.RouteData.Values["controller"] ?? "").ToString() == "Prevoz" ||
            (ViewContext.RouteData.Values["controller"] ?? "").ToString() == "Smjestaj" ||
            (ViewContext.RouteData.Values["controller"] ?? "").ToString() == "TipPrevoza" ||
-           (ViewContext.RouteData.Values["controller"] ?? "").ToString() == "Home")
+           (ViewContext.RouteData.Values["controller"] ?? "").ToString() == "Home" ||
+           (ViewContext.RouteData.Values["area"] ?? "").ToString() == "Identity")
         {
             <link rel="stylesheet" type="text/css" href="~/Assets/styles/contact_styles.css">
             <link rel="stylesheet" type="text/css" href="~/Assets/styles/contact_responsive.css">
