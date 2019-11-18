@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-TurističkaAgencija-A38872E7-8B45-4D07-B74F-6C53E20D6F8C</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AssemblyName>P</AssemblyName>
   </PropertyGroup>
 
 

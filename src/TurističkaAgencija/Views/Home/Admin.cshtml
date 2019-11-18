@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/home_slider.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Admin panel</div>
+        <h1 style="text-align: center; font-weight: 700;" class="text-uppercase text-light">@ViewBag.PonudaNaziv</h1>
+    </div>
+</div>
+
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">Odaberite tabelu za izmjenu</span></div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-1">
+                            <p class="text-light" style="font-size:1.3em;">
+                                <a asp-action="Index" asp-controller="Korisnik">Korisnik</a>
+                            </p>
+                        </div>
+                        <div class="col-md-1" style="margin-left: 15px;">
+                            <p class="text-light" style="font-size:1.3em;">
+                                <a asp-action="List" asp-controller="Ponuda">Ponuda</a>
+                            </p>
+                        </div>
+                        <div class="col-md-2" style="margin-left: -25px;">
+                            <p class="text-light" style="text-indent: 40px; font-size:1.2em;">
+                                <a asp-action="List" asp-controller="Smjestaj">Smještaj</a>
+                            </p>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-light" style="text-indent: 60px; font-size:1.1em;">
+                                        <a asp-action="List" asp-controller="Destinacija">Destinacija</a>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-light" style="text-indent: 60px; font-size:1.1em;">
+                                                <a asp-action="Index" asp-controller="Drzava">Država</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-left: -45px;">
+                            <p class="text-light" style="text-indent: 40px; font-size:1.2em;">
+                                <a asp-action="Index" asp-controller="Prevoz">Prevoz</a>
+                            </p>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-light" style="text-indent: 60px; font-size:1.1em;">
+                                        <a asp-action="Index" asp-controller="Kompanija">Kompanija</a>
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-light" style="text-indent: 60px; font-size:1.1em;">
+                                        <a asp-action="Index" asp-controller="TipPrevoza">Tip prevoza</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+
+}
+

@@ -87,7 +87,8 @@
                                     "Remove",
                                     "Ponuda",
                                     new { id = item.Id },
-                                    new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" })
+                                    new { onclick = "return confirm('Da li sigurni da želite da obrišete?');" }) | 
+                            <a href="@Url.Action("Index","Rezervacija", new { ponudaId = item.Id})">Rezervacije</a>
                             </td>
                         </tr>
                     }
@@ -97,6 +98,7 @@
                 <div class="button_bcg"></div>
                 <a href="@Url.Action("Create", "Ponuda")">Dodaj novu ponudu<span></span><span></span><span></span></a>
             </div>
+            <a asp-action="Admin" asp-controller="Home" class="btn btn-danger" style="margin-left: 10px; margin-top: -40px;">Nazad</a>
         </div>
     </div>
 </div>

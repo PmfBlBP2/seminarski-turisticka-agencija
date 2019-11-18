@@ -41,7 +41,7 @@
                     {
                         <tr>
                             <td>
-                                <img class="popImg img-hover" src="@item.Slika" style="width:150px;" alt="@item.Grad"/>
+                                <img class="popImg img-hover" src="@item.Slika" style="width:150px;" alt="@item.Grad" />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Grad)
@@ -69,6 +69,7 @@
                 <div class="button_bcg"></div>
                 <a href="@Url.Action("Create", "Destinacija")">Dodaj novu destinaciju<span></span><span></span><span></span></a>
             </div>
+            <a asp-action="Admin" asp-controller="Home" class="btn btn-danger" style="margin-left: 10px; margin-top: -40px;">Nazad</a>
         </div>
     </div>
 </div>
