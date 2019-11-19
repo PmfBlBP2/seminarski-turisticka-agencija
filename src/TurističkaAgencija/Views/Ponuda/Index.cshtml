@@ -102,7 +102,7 @@
                 <div class="col-lg-4 intro_col">
                     <div class="intro_item">
                         <div class="intro_item_overlay"></div>
-                        <div class="intro_item_background" style="background-image:url(@item.Destinacija.Slika)"></div>
+                        <div class="intro_item_background" style="background-image:url(@item.Slika)"></div>
                         <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
                             <div class="intro_date">@item.Pocetak.ToShortDateString() / @item.Kraj.ToShortDateString()</div>
                             <div class="button intro_button">
@@ -146,7 +146,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="offers_image_container">
-                                    <div class="offers_image_background" style="background-image:url(@item.Destinacija.Slika)"></div>
+                                    <div class="offers_image_background" style="background-image:url(@item.Slika)"></div>
                                     <div class="offer_name" style="width: 260px;">
                                         <a asp-action="Details" asp-route-id="@item.Id">@item.Naziv</a>
                                     </div>

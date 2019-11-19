@@ -160,10 +160,16 @@ namespace TurističkaAgencija.Controllers
             }
             rezultat.ToList();
 
-            
-            var minCijena = pretraga.CijenaOd;
 
-            var maxCijena = pretraga.CijenaDo;
+            var minCijena = _context.Ponuda
+                .OrderBy(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
+
+            var maxCijena = _context.Ponuda
+                .OrderByDescending(x => x.Cijena)
+                .Select(x => x.Cijena)
+                .FirstOrDefault();
 
             var minDatum = new DateTime();
 
