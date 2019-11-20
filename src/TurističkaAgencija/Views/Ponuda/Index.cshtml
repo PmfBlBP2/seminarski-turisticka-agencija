@@ -1,0 +1,204 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model TurističkaAgencija.Models.Home
+
+@{
+    ViewData["Title"] = "Početna";
+}
+<!-- Home -->
+
+<div class="home">
+    <!-- Home Slider -->
+    <div class="home_slider_container">
+        <div class="owl-carousel owl-theme home_slider">
+            <!-- Slider Item -->
+            <div class="owl-item home_slider_item">
+                <div class="home_slider_background" style="background-image:url(/Assets/images/home_slider.jpg)"></div>
+
+                <div class="home_slider_content text-center">
+                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut" style="width: 800px;">
+                        <h1>Projekat</h1>
+                        <h1 style="margin-top: 5px;">Baze podataka 2</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Search -->
+
+<div class="search">
+    <!-- Search Contents -->
+    <div class="container fill_height">
+        <div class="row fill_height">
+            <div class="col fill_height">
+                <!-- Search Tabs -->
+                <div class="search_tabs_container">
+                    <div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                        <div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                            <img src="~/Assets/images/search.png" alt="">
+                            <span>Pretraga</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search Panel -->
+                <div class="search_panel active">
+                    <form asp-action="Search" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="search_item">
+                            <div>Destinacija</div>
+                            <input asp-for="@Model.Pretraga.Destinacija" class="destination search_input" placeholder="Npr. Banja Luka">
+                        </div>
+                        <div class="search_item">
+                            <div>Datum od</div>
+                            <input asp-for="@Model.Pretraga.DatumOd" class="check_in search_input" value="@ViewBag.minDatum">
+                        </div>
+                        <div class="search_item">
+                            <div>Datum do</div>
+                            <input asp-for="@Model.Pretraga.DatumDo" class="check_out search_input" value="@ViewBag.maxDatum">
+                        </div>
+                        <div class="search_item">
+                            <div>Cijena od</div>
+                            <input asp-for="@Model.Pretraga.CijenaOd" class="check_out search_input" placeholder="Npr. @ViewBag.minCijena">
+                        </div>
+                        <div class="search_item">
+                            <div>Cijena do</div>
+                            <input asp-for="@Model.Pretraga.CijenaDo" class="check_out search_input" placeholder="Npr. @ViewBag.maxCijena">
+                        </div>
+
+                        <button type="submit" class="button search_button" style="margin-bottom:25px;">Pretraži<span></span><span></span><span></span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Intro -->
+
+<div class="intro">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="intro_title text-center">Najnovija ponuda putovanja</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="intro_text text-center">
+                    <p>Posljednje dodata putovanja u bazu podataka</p>
+                </div>
+            </div>
+        </div>
+        <div class="row intro_items">
+
+            <!-- Intro Item -->
+            @foreach (var item in Model.TopTri)
+            {
+                <div class="col-lg-4 intro_col">
+                    <div class="intro_item">
+                        <div class="intro_item_overlay"></div>
+                        <div class="intro_item_background" style="background-image:url(@item.Slika)"></div>
+                        <div class="intro_item_content d-flex flex-column align-items-center justify-content-center">
+                            <div class="intro_date">@item.Pocetak.ToShortDateString() / @item.Kraj.ToShortDateString()</div>
+                            <div class="button intro_button">
+                                <div class="button_bcg"></div>
+                                <a asp-action="Details" asp-route-id= "@item.Id">Saznaj više<span></span><span></span><span></span></a>
+                            </div>
+                            <div class="intro_center text-center">
+                                <h1>@item.Naziv</h1>
+                                <div class="intro_price">@item.Cijena KM</div>
+                                <div class="rating rating_5">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Ponuda -->
+
+<div class="offers">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2 class="section_title">Ponuda putovanja</h2>
+            </div>
+        </div>
+        <div class="row offers_items">
+
+            @foreach (var item in Model.Ponuda)
+            {
+                <div class="col-lg-12 offers_col">
+                    <div class="offers_item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="offers_image_container">
+                                    <div class="offers_image_background" style="background-image:url(@item.Slika)"></div>
+                                    <div class="offer_name" style="width: 260px;">
+                                        <a asp-action="Details" asp-route-id="@item.Id">@item.Naziv</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="offers_content">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="offers_price">@item.Cijena KM</div>
+                                            <div class="rating_r rating_r_5 offers_rating">
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <p class="offers_text">@item.Destinacija.Opis</p>
+                                    
+                                    <p>
+                                        <strong>Datum polaska: </strong>@item.Pocetak.ToShortDateString() <br />
+                                    
+                                        <strong>Datum povratka: </strong>@item.Kraj.ToShortDateString()
+                                    </p>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="button cta_button"><div class="button_bcg"></div>
+                                                <a href="@Url.Action("Create","Rezervacija", new { ponudaId = item.Id })">Rezerviši<span></span><span></span><span></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <div class="offers_link"><a asp-action="Details" asp-route-id= "@item.Id">Pogledaj ponudu</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Assets/js/offers_custom.js"></script>
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+}

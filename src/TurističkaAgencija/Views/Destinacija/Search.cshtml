@@ -1,0 +1,81 @@
+﻿@model TurističkaAgencija.Models.Home
+@{
+    ViewData["Title"] = "Pretraga";
+}
+
+<div class="home" style="margin-bottom: 0px!important;">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Ponuda za @ViewBag.Grad</div>
+    </div>
+</div>
+
+<div class="offers" style="padding-top: 10px;">
+    <div class="container">
+        
+        <div class="row offers_items">
+
+            @foreach (var item in Model.Ponuda)
+            {
+                <div class="col-lg-12 offers_col">
+                    <div class="offers_item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="offers_image_container">
+                                    <div class="offers_image_background" style="background-image:url(@item.Destinacija.Slika)"></div>
+                                    <div class="offer_name" style="width: 260px;">
+                                        <a asp-action="Details" asp-controller="Ponuda" asp-route-id="@item.Id">@item.Naziv</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="offers_content">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="offers_price">@item.Cijena KM</div>
+                                            <div class="rating_r rating_r_5 offers_rating">
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                                <i></i>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <p class="offers_text">@item.Destinacija.Opis</p>
+
+                                    <p>
+                                        <strong>Datum polaska: </strong>@item.Pocetak.ToShortDateString() <br />
+
+                                        <strong>Datum povratka: </strong>@item.Kraj.ToShortDateString()
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="button cta_button">
+                                                <div class="button_bcg"></div>
+                                                <a href="@Url.Action("Create","Rezervacija", new { ponudaId = item.Id })">Rezerviši<span></span><span></span><span></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <div class="offers_link"><a asp-action="Details" asp-controller="Ponuda" asp-route-id="@item.Id">Pogledaj ponudu</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Assets/js/offers_custom.js"></script>
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+}
+

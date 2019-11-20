@@ -7,6 +7,10 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema turisticka_agencija
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema turisticka_agencija
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `turisticka_agencija` DEFAULT CHARACTER SET utf8 ;
 USE `turisticka_agencija` ;
 
@@ -17,7 +21,7 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`drzava` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`drzava` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` VARCHAR(45) NOT NULL,
+  `Naziv` VARCHAR(1024) NOT NULL,
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 14
@@ -32,9 +36,9 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`destinacija` ;
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`destinacija` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `DrzavaId` INT(11) NOT NULL,
-  `Grad` VARCHAR(45) NOT NULL,
-  `Opis` VARCHAR(45) NULL DEFAULT NULL,
-  `Slika` VARCHAR(1024) NULL DEFAULT NULL,
+  `Grad` VARCHAR(1024) NOT NULL,
+  `Opis` VARCHAR(10000) NULL DEFAULT NULL,
+  `Slika` VARCHAR(10000) NULL DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `DestinacijaId_UNIQUE` (`Id` ASC),
   INDEX `fk_destinacija_drzava1_idx` (`DrzavaId` ASC),
@@ -55,10 +59,11 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`korisnik` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`korisnik` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
-  `Ime` VARCHAR(45) NOT NULL,
-  `Prezime` VARCHAR(45) NOT NULL,
-  `Email` VARCHAR(256) NULL DEFAULT NULL,
+  `Ime` VARCHAR(1024) NOT NULL,
+  `Prezime` VARCHAR(1024) NOT NULL,
   `DatumRodjenja` DATE NOT NULL,
+  `Email` VARCHAR(1024) NULL DEFAULT NULL,
+  `BrojTelefona` VARCHAR(45) NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `Id_UNIQUE` (`Id` ASC))
 ENGINE = InnoDB
@@ -72,8 +77,8 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`kompanija` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`kompanija` (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `Naziv` VARCHAR(45) NOT NULL,
-  `Grad` VARCHAR(45) NULL,
+  `Naziv` VARCHAR(1024) NOT NULL,
+  `Grad` VARCHAR(1024) NULL,
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB;
 
@@ -85,7 +90,7 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`tip_prevoza` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`tip_prevoza` (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `Naziv` VARCHAR(45) NULL,
+  `Naziv` VARCHAR(1024) NULL,
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB;
 
@@ -99,7 +104,8 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`prevoz` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `KompanijaId` INT NOT NULL,
   `TipPrevozaId` INT NOT NULL,
-  `Opis` VARCHAR(45) NULL DEFAULT NULL,
+  `Opis` VARCHAR(10000) NULL DEFAULT NULL,
+  `Slika` VARCHAR(10000) NULL,
   PRIMARY KEY (`Id`),
   INDEX `fk_prevoz_kompanija1_idx` (`KompanijaId` ASC),
   INDEX `fk_prevoz_tip_prevoza1_idx` (`TipPrevozaId` ASC),
@@ -125,9 +131,10 @@ DROP TABLE IF EXISTS `turisticka_agencija`.`smjestaj` ;
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`smjestaj` (
   `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `DestinacijaId` INT(11) NOT NULL,
-  `Naziv` VARCHAR(45) NOT NULL,
-  `Opis` VARCHAR(45) NULL DEFAULT NULL,
-  `Adresa` VARCHAR(45) NULL DEFAULT NULL,
+  `Naziv` VARCHAR(1024) NOT NULL,
+  `Opis` VARCHAR(10000) NULL DEFAULT NULL,
+  `Adresa` VARCHAR(1024) NULL DEFAULT NULL,
+  `Slika` VARCHAR(3000) NULL,
   PRIMARY KEY (`Id`),
   INDEX `fk_smjestaj_destinacija1_idx` (`DestinacijaId` ASC),
   CONSTRAINT `fk_smjestaj_destinacija1`
@@ -149,11 +156,14 @@ CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`ponuda` (
   `SmjestajId` INT(11) NOT NULL,
   `DestinacijaId` INT(11) NOT NULL,
   `PrevozId` INT(11) NOT NULL,
-  `Naziv` VARCHAR(45) NOT NULL,
+  `Naziv` VARCHAR(1024) NOT NULL,
+  `Opis` NVARCHAR(5000) NULL,
+  `Slika` VARCHAR(10000) NULL,
   `DatumKreiranja` DATE NOT NULL,
   `Pocetak` DATE NOT NULL,
   `Kraj` DATE NOT NULL,
-  `Cijena` DECIMAL(10,0) NOT NULL DEFAULT '1',
+  `Cijena` DECIMAL(10,2) NOT NULL,
+  `BrojMijesta` INT NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `IdPutovanja_UNIQUE` (`Id` ASC),
   INDEX `fk_ponuda_smjestaj1_idx` (`SmjestajId` ASC),
@@ -184,44 +194,25 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `turisticka_agencija`.`rezervacija` ;
 
 CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija` (
-  `Id` INT(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` INT(11) NOT NULL,
-  `BrojOsoba` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`),
+  `KorisnikId` INT(11) NOT NULL,
+  `DatumRezervacije` DATETIME NULL,
+  `Iznos` DECIMAL(10,2) NULL,
   INDEX `fk_rezervacija_ponuda1_idx` (`PonudaId` ASC),
+  INDEX `fk_rezervacija_korisnik1_idx` (`KorisnikId` ASC),
+  PRIMARY KEY (`PonudaId`, `KorisnikId`),
   CONSTRAINT `fk_rezervacija_ponuda1`
     FOREIGN KEY (`PonudaId`)
     REFERENCES `turisticka_agencija`.`ponuda` (`Id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `turisticka_agencija`.`rezervacija_korisnici`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `turisticka_agencija`.`rezervacija_korisnici` ;
-
-CREATE TABLE IF NOT EXISTS `turisticka_agencija`.`rezervacija_korisnici` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `RezervacijaId` INT(11) NOT NULL,
-  `KorisnikId` INT(11) NOT NULL,
-  `DatumRezervacije` DATE NULL,
-  PRIMARY KEY (`Id`),
-  INDEX `fk_rezervacija_korisnici_rezervacija1_idx` (`RezervacijaId` ASC),
-  INDEX `fk_rezervacija_korisnici_korisnik1_idx` (`KorisnikId` ASC),
-  CONSTRAINT `fk_rezervacija_korisnici_rezervacija1`
-    FOREIGN KEY (`RezervacijaId`)
-    REFERENCES `turisticka_agencija`.`rezervacija` (`Id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rezervacija_korisnici_korisnik1`
+  CONSTRAINT `fk_rezervacija_korisnik1`
     FOREIGN KEY (`KorisnikId`)
     REFERENCES `turisticka_agencija`.`korisnik` (`Id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

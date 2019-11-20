@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `turisticka_agencija` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `turisticka_agencija`;
 -- MySQL dump 10.13  Distrib 5.7.25, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: turisticka_agencija
@@ -25,14 +27,14 @@ DROP TABLE IF EXISTS `destinacija`;
 CREATE TABLE `destinacija` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `DrzavaId` int(11) NOT NULL,
-  `Grad` varchar(45) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
-  `Slika` varchar(1024) DEFAULT NULL,
+  `Grad` varchar(1024) NOT NULL,
+  `Opis` varchar(10000) DEFAULT NULL,
+  `Slika` varchar(10000) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `DestinacijaId_UNIQUE` (`Id`),
   KEY `fk_destinacija_drzava1_idx` (`DrzavaId`),
   CONSTRAINT `fk_destinacija_drzava1` FOREIGN KEY (`DrzavaId`) REFERENCES `drzava` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `destinacija` (
 
 LOCK TABLES `destinacija` WRITE;
 /*!40000 ALTER TABLE `destinacija` DISABLE KEYS */;
-INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, i','https://storage.radiosarajevo.ba/image/426112/1180x732/bec-panorama-grada-15.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske.','https://www.turizamiputovanja.com/wp-content/uploads/2017/01/Pariz-no%C4%87u.jpg');
+INSERT INTO `destinacija` (`Id`, `DrzavaId`, `Grad`, `Opis`, `Slika`) VALUES (1,6,'Beč','Beč leži u sjeveroistočnom dijelu Austrije, između Alpa i Karpata, gdje je Dunav probio svoj put prema moru kroz planine.','https://www.imp.ac.at/fileadmin/content/Large-Header-Images/vienna.jpg'),(2,8,'Pariz','Pariz je prestonica i najveći grad Francuske. Nalazi se na severu Francuske na reci Seni.','http://www.journal.hr/wp-content/uploads/2015/10/pariz-velika.jpg'),(3,1,'Banja Luka','Smješten na obali Vrbasa, vrlo fin. Sve preporuke.','https://malacgenijalac.ba/wp-content/uploads/2017/11/banjaluka-900px.jpg');
 /*!40000 ALTER TABLE `destinacija` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +57,7 @@ DROP TABLE IF EXISTS `drzava`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `drzava` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) NOT NULL,
+  `Naziv` varchar(1024) NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,8 +82,8 @@ DROP TABLE IF EXISTS `kompanija`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `kompanija` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) NOT NULL,
-  `Grad` varchar(45) DEFAULT NULL,
+  `Naziv` varchar(1024) NOT NULL,
+  `Grad` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -106,13 +108,14 @@ DROP TABLE IF EXISTS `korisnik`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `korisnik` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Ime` varchar(45) NOT NULL,
-  `Prezime` varchar(45) NOT NULL,
-  `Email` varchar(256) DEFAULT NULL,
+  `Ime` varchar(1024) NOT NULL,
+  `Prezime` varchar(1024) NOT NULL,
   `DatumRodjenja` date NOT NULL,
+  `Email` varchar(1024) DEFAULT NULL,
+  `BrojTelefona` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +125,7 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `Email`, `DatumRodjenja`) VALUES (1,'Aleksandar','Toprek','aleksandartoprek@gmail.com','1995-07-29'),(2,'Tanja','Gromilic','tanjagromilic@gmail.com','1996-05-08'),(3,'Nikolina','Čolić','nikolinacolic@gmail.com','1995-09-08'),(4,'Đorđe','Simeunčević','djordjes@gmail.com','1995-05-19');
+INSERT INTO `korisnik` (`Id`, `Ime`, `Prezime`, `DatumRodjenja`, `Email`, `BrojTelefona`) VALUES (1,'Aleksandar','Toprek','1995-07-29','aleksandartoprek@gmail.com','+387 66 219 745'),(2,'Tanja','Gromilic','1996-05-08','tanjagromilic@gmail.com','+387 65 311 051'),(3,'Nikolina','Čolić','1995-09-08','nikolinacolic@gmail.com',NULL),(4,'Đorđe','Simeunčević','1995-05-19','djordjes@gmail.com',NULL),(6,'Pero','Peric','1993-01-25','perop@gmail.com','+387 66 123 456'),(7,'Marko','Markovic','1995-10-30','markom@gmail.com','+387 66 455 123'),(8,'Janko','Jankovic','1995-10-29','jankecj@gmail.com','+38766555441'),(11,'Stefan','Jankovic','1999-11-07','stefanj@gmail.com','+387 66 123-456');
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,11 +141,14 @@ CREATE TABLE `ponuda` (
   `SmjestajId` int(11) NOT NULL,
   `DestinacijaId` int(11) NOT NULL,
   `PrevozId` int(11) NOT NULL,
-  `Naziv` varchar(45) NOT NULL,
+  `Naziv` varchar(1024) NOT NULL,
+  `Opis` varchar(5000) DEFAULT NULL,
+  `Slika` varchar(10000) DEFAULT NULL,
   `DatumKreiranja` date NOT NULL,
   `Pocetak` date NOT NULL,
   `Kraj` date NOT NULL,
-  `Cijena` decimal(10,2) NOT NULL DEFAULT '1.00',
+  `Cijena` decimal(10,2) NOT NULL,
+  `BrojMijesta` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `IdPutovanja_UNIQUE` (`Id`),
   KEY `fk_ponuda_smjestaj1_idx` (`SmjestajId`),
@@ -151,7 +157,7 @@ CREATE TABLE `ponuda` (
   CONSTRAINT `fk_ponuda_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_prevoz1` FOREIGN KEY (`PrevozId`) REFERENCES `prevoz` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ponuda_smjestaj1` FOREIGN KEY (`SmjestajId`) REFERENCES `smjestaj` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +167,7 @@ CREATE TABLE `ponuda` (
 
 LOCK TABLES `ponuda` WRITE;
 /*!40000 ALTER TABLE `ponuda` DISABLE KEYS */;
-INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`) VALUES (1,1,2,3,'Nova godina u Parizu','2019-10-08','2019-12-25','2020-01-05',1350.00),(2,2,1,2,'Advent u Beču','2019-10-08','2019-12-20','2019-12-24',430.00);
+INSERT INTO `ponuda` (`Id`, `SmjestajId`, `DestinacijaId`, `PrevozId`, `Naziv`, `Opis`, `Slika`, `DatumKreiranja`, `Pocetak`, `Kraj`, `Cijena`, `BrojMijesta`) VALUES (1,1,2,3,'Nova godina u Parizu','Pariz je grad koji se razvijao u koncentričnim krugovima, grad sa mnoštvom kulturnih spomenika i galerija koje čuvaju neprocenjivo umetničko blago, grad u kome se meša duh užurbanosti i opuštenosti. Elegantan grad na reci Seni, pored koje se slikari okupljaju kako bi pokušali da na platno prenesu svoja osećanja. Trg Konkord predstavlja najsavršenije urbanističko rešenje na svetu  i dokaz funkcionalnosti prestonice Francuske jer su u jednoj ravni sagradjene Ajfelova kula, Trijumfalna kapija i katedrala Notr Dam. Uživajmo u božanstvenoj arhitekturi i duhu minulih vekova koji se kombinuju sa najnovijim svetskim trendovima. Dozvolimo sebi malo romantike i mnogo dobrog provoda i pozitivne energije sa milionima ljudi na ulicama!','https://cdn.wallpapersafari.com/15/5/RQF2z0.jpg','2019-10-08','2019-12-25','2020-01-05',1350.00,50),(2,2,1,2,'Advent u Beču','Božićni ili adventski sajmovi u srednjoj Europi imaju dugu tradiciju. Austrijski su posebno omiljeni, a najpoznatiji među njima svakako je bečki adventski sajam. Riječ je o pravoj maloj zemlji čuda, koja svake godine privuče više od tri milijuna posjetitelja.','https://www.themayor.eu/uploads/image/file/1923/medium_Vienna.jpg?1544100077','2019-10-08','2019-12-20','2019-12-24',430.00,30),(3,3,3,1,'Vikend u Banjoj Luci','Svaki Banjolučanin će na pomen svog grada reći da je krajiška ljepotica grad zelenih aleja, grad mladosti, sporta i lijepih žena. Banja Luka je podignuta sa obje strane Vrbasa, na mjestu gdje ova divlja, planinska rijeka iz svojih klisura, tijesnaca i klanaca gubi osobine gorske rijeke i ulazi u niziju kroz koju pravi svoj put ka ušću u Savu. Vrbas teče sredinom grada i na gradskom području prima pritoke: Suturliju, Crkvenu i Vrbanju.','http://www.banjaluka-tourism.banjaluka-turizam.com/images/Magical-City-No.3.jpg','2019-10-15','2019-10-25','2019-10-27',55.50,50),(5,3,2,3,'Test Ponuda','Test','https://i-a6eb.kxcdn.com/tours/pariz_putovanje-174191974_xl-2015_13249.jpg.axd?width=665&crop=auto&scale=both&quality=100','2019-10-17','2019-10-19','2019-10-24',240.00,50);
 /*!40000 ALTER TABLE `ponuda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,13 +182,14 @@ CREATE TABLE `prevoz` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `KompanijaId` int(11) NOT NULL,
   `TipPrevozaId` int(11) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
+  `Opis` varchar(10000) DEFAULT NULL,
+  `Slika` varchar(10000) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `fk_prevoz_kompanija1_idx` (`KompanijaId`),
   KEY `fk_prevoz_tip_prevoza1_idx` (`TipPrevozaId`),
   CONSTRAINT `fk_prevoz_kompanija1` FOREIGN KEY (`KompanijaId`) REFERENCES `kompanija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_prevoz_tip_prevoza1` FOREIGN KEY (`TipPrevozaId`) REFERENCES `tip_prevoza` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +199,7 @@ CREATE TABLE `prevoz` (
 
 LOCK TABLES `prevoz` WRITE;
 /*!40000 ALTER TABLE `prevoz` DISABLE KEYS */;
-INSERT INTO `prevoz` (`Id`, `KompanijaId`, `TipPrevozaId`, `Opis`) VALUES (1,1,1,'Visokoturistički autobusi'),(2,2,1,'Autobus na sprat'),(3,5,2,'Airbus A-320');
+INSERT INTO `prevoz` (`Id`, `KompanijaId`, `TipPrevozaId`, `Opis`, `Slika`) VALUES (1,1,1,'Autobus na sprat','https://live.staticflickr.com/4487/36998372393_969d278248_b.jpg'),(2,2,1,'Visokoturistički autobus','http://www.kvorum.net/foto/_vijesti/900x600/3545.jpg'),(3,5,2,'Airbus A-320','https://upload.wikimedia.org/wikipedia/commons/a/a5/Air_Serbia%2C_Airbus_A320-200%2C_YU-APG_-_LHR_%2814525707236%29.jpg'),(4,6,2,'Charter let','https://image.businessinsider.com/5cc9cd44f067171560643706?width=1100&format=jpeg&auto=webp');
 /*!40000 ALTER TABLE `prevoz` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,54 +211,27 @@ DROP TABLE IF EXISTS `rezervacija`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rezervacija` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
   `PonudaId` int(11) NOT NULL,
-  `BrojOsoba` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
+  `KorisnikId` int(11) NOT NULL,
+  `DatumRezervacije` datetime DEFAULT NULL,
+  `Iznos` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`PonudaId`,`KorisnikId`),
   KEY `fk_rezervacija_ponuda1_idx` (`PonudaId`),
+  KEY `fk_rezervacija_korisnik1_idx` (`KorisnikId`),
+  CONSTRAINT `fk_rezervacija_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_rezervacija_ponuda1` FOREIGN KEY (`PonudaId`) REFERENCES `ponuda` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `rezervacija`
 --
--- ORDER BY:  `Id`
+-- ORDER BY:  `PonudaId`,`KorisnikId`
 
 LOCK TABLES `rezervacija` WRITE;
 /*!40000 ALTER TABLE `rezervacija` DISABLE KEYS */;
-INSERT INTO `rezervacija` (`Id`, `PonudaId`, `BrojOsoba`) VALUES (1,1,2);
+INSERT INTO `rezervacija` (`PonudaId`, `KorisnikId`, `DatumRezervacije`, `Iznos`) VALUES (1,1,'2019-10-16 00:00:00',1350.00),(1,2,'2019-11-10 19:23:24',1350.00),(1,3,'2019-11-15 16:54:39',1350.00),(1,4,'2019-11-10 18:40:15',1350.00),(1,7,'2019-11-15 18:52:30',1350.00),(1,8,'2019-11-10 19:28:41',1350.00),(1,11,'2019-11-10 20:27:35',1350.00),(2,1,'2019-11-15 21:49:22',430.00),(2,2,'2019-10-15 00:00:00',430.00),(3,1,'2019-10-17 20:44:04',55.50),(3,2,'2019-10-17 20:44:16',55.50),(5,1,'2019-10-17 19:25:02',240.00),(5,3,'2019-10-17 19:19:39',240.00),(5,4,'2019-10-17 20:09:48',240.00),(5,6,'2019-10-17 19:15:38',240.00),(5,7,'2019-11-12 21:25:08',240.00);
 /*!40000 ALTER TABLE `rezervacija` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rezervacija_korisnici`
---
-
-DROP TABLE IF EXISTS `rezervacija_korisnici`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rezervacija_korisnici` (
-  `RezervacijaId` int(11) NOT NULL,
-  `KorisnikId` int(11) NOT NULL,
-  `DatumRezervacije` date DEFAULT NULL,
-  PRIMARY KEY (`RezervacijaId`,`KorisnikId`),
-  KEY `fk_rezervacija_korisnici_rezervacija1_idx` (`RezervacijaId`),
-  KEY `fk_rezervacija_korisnici_korisnik1_idx` (`KorisnikId`),
-  CONSTRAINT `fk_rezervacija_korisnici_korisnik1` FOREIGN KEY (`KorisnikId`) REFERENCES `korisnik` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rezervacija_korisnici_rezervacija1` FOREIGN KEY (`RezervacijaId`) REFERENCES `rezervacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rezervacija_korisnici`
---
--- ORDER BY:  `RezervacijaId`,`KorisnikId`
-
-LOCK TABLES `rezervacija_korisnici` WRITE;
-/*!40000 ALTER TABLE `rezervacija_korisnici` DISABLE KEYS */;
-INSERT INTO `rezervacija_korisnici` (`RezervacijaId`, `KorisnikId`, `DatumRezervacije`) VALUES (1,1,'2019-10-15'),(1,2,'2019-10-14');
-/*!40000 ALTER TABLE `rezervacija_korisnici` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -264,13 +244,14 @@ DROP TABLE IF EXISTS `smjestaj`;
 CREATE TABLE `smjestaj` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `DestinacijaId` int(11) NOT NULL,
-  `Naziv` varchar(45) NOT NULL,
-  `Opis` varchar(45) DEFAULT NULL,
-  `Adresa` varchar(45) DEFAULT NULL,
+  `Naziv` varchar(1024) NOT NULL,
+  `Opis` varchar(10000) DEFAULT NULL,
+  `Adresa` varchar(1024) DEFAULT NULL,
+  `Slika` varchar(3000) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `fk_smjestaj_destinacija1_idx` (`DestinacijaId`),
   CONSTRAINT `fk_smjestaj_destinacija1` FOREIGN KEY (`DestinacijaId`) REFERENCES `destinacija` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +261,7 @@ CREATE TABLE `smjestaj` (
 
 LOCK TABLES `smjestaj` WRITE;
 /*!40000 ALTER TABLE `smjestaj` DISABLE KEYS */;
-INSERT INTO `smjestaj` (`Id`, `DestinacijaId`, `Naziv`, `Opis`, `Adresa`) VALUES (1,2,'Four Seasons Hotel George V','Zapanjujući hotel u nekadašnjem znamenitom ho','31 Avenue George V'),(2,1,'Sofie Apartments','Apartmani Sofie se nalaze na 5 minuta vožnje ','Kegelgasse 20');
+INSERT INTO `smjestaj` (`Id`, `DestinacijaId`, `Naziv`, `Opis`, `Adresa`, `Slika`) VALUES (1,2,'Four Seasons Hotel George V','Hotel obuhvata vrhunske spa tretmane, restorane nagrađene Mišlenovim zvezdicama i privatne terase sa veličanstvenim pogledom na Pariz.','31 Avenue George V','https://q-cf.bstatic.com/images/hotel/max1024x768/137/137519245.jpg'),(2,1,'Sofie Apartments','Apartmani Sofie se nalaze na 5 minuta vožnje od Katedrale Sv. Stefana i na 5 minuta hoda od Bulevara Ring.','Kegelgasse 20','https://q-cf.bstatic.com/images/hotel/max1024x768/946/94619515.jpg'),(3,3,'Hotel Palace','Hotel Palace smješten je na glavnom trgu u zgradi koja je uvrštena u nacionalnu baštinu.','Kralja Petra I. Karađorđevića 60','https://r-cf.bstatic.com/images/hotel/max1024x768/188/18805752.jpg');
 /*!40000 ALTER TABLE `smjestaj` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,7 +274,7 @@ DROP TABLE IF EXISTS `tip_prevoza`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tip_prevoza` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naziv` varchar(45) DEFAULT NULL,
+  `Naziv` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -326,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-08 17:04:48
+-- Dump completed on 2019-11-15 22:10:01

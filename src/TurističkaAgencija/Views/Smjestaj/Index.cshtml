@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TurističkaAgencija.Models.Smjestaj>
+
+@{
+    ViewData["Title"] = "Smještaj";
+}
+<div class="home" style="margin-bottom: 0px!important;">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Smještaj</div>
+    </div>
+</div>
+
+<div class="offers" style="padding-top: 5px;">
+    <div class="container">
+
+        <div class="row offers_items">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-12 offers_col">
+                    <div class="offers_item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="offers_image_container">
+                                    <div class="offers_image_background" style="background-image:url(@item.Slika)"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="offers_content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="offers_price">@item.Naziv</div>
+                                        </div>
+
+                                    </div>
+
+                                    <p class="offers_text">@item.Adresa, @item.Destinacija.Grad</p>
+                                    <p class="offers_text">@item.Opis</p>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+    <script src="~/Assets/js/offers_custom.js"></script>
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script>
+        $(function () {
+            $('.popImg').on('click', function () {
+                $('.imagepreview').attr('src', $(this).attr('src'));
+                $('#exampleModalCenterTitle').text($(this).attr('alt'));
+                $('#imagemodal').modal('show');
+            });
+        });
+    </script>
+    <style>
+        .img-hover {
+            cursor: pointer;
+        }
+    </style>
+}

@@ -1,0 +1,78 @@
+﻿@model TurističkaAgencija.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Kreiraj";
+}
+
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Korisnik / Kreiraj</div>
+    </div>
+</div>
+
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">@ViewBag.PonudaNaziv</span></div>
+                    </div>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Ime" class="control-label" style="color: white;"></label>
+                                    <input asp-for="Ime" class="form-control" />
+                                    <span asp-validation-for="Ime" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Prezime" class="control-label" style="color: white;"></label>
+                                    <input asp-for="Prezime" class="form-control" />
+                                    <span asp-validation-for="Prezime" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label" style="color: white;"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DatumRodjenja" class="control-label" style="color: white;">Datum rođenja</label>
+                                    <input asp-for="DatumRodjenja" class="form-control" />
+                                    <span asp-validation-for="DatumRodjenja" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="BrojTelefona" class="control-label" style="color: white;">Broj telefona</label>
+                                    <input asp-for="BrojTelefona" class="form-control" />
+                                    <span asp-validation-for="BrojTelefona" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  justify-content-center">
+                            <div class="form-group">
+                                <button type="submit" id="form_submit_button" class="form_submit_button button">Sačuvaj<span></span><span></span><span></span></button>
+                                <a href="@Url.Action("Index", "Korisnik")" class="btn btn-danger" style="margin-left: 10px; margin-top: 30px;">Odustani</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+}

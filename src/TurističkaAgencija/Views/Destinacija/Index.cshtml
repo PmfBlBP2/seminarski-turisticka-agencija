@@ -1,0 +1,62 @@
+﻿@model IEnumerable<TurističkaAgencija.Models.Destinacija>
+
+@{
+    ViewData["Title"] = "Destinacija";
+}
+
+<div class="home" style="margin-bottom: 0px!important;">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Destinacije</div>
+    </div>
+</div>
+
+<div class="offers" style="padding-top: 5px;">
+    <div class="container">
+        
+        <div class="row offers_items">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-12 offers_col">
+                    <div class="offers_item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="offers_image_container">
+                                    <div class="offers_image_background" id="myDiv" style="background-image:url(@item.Slika)"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="offers_content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="offers_price" id="textDiv" title="@item.Grad, @item.Drzava.Naziv">@item.Grad, @item.Drzava.Naziv</div>
+                                        </div>
+
+                                    </div>
+
+                                    <p class="offers_text">@item.Opis</p>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6" style="margin-left: 5px;">
+                                            <div class="offers_link"><a asp-action="Search" asp-route-id="@item.Id">Pogledaj ponudu za ovu destinaciju</a></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+    <script src="~/Assets/js/offers_custom.js"></script>
+    <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+}
