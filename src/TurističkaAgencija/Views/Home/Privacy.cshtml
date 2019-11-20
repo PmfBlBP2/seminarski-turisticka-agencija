@@ -1,6 +1,72 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Polisa Privatnosti";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="home" style="margin-bottom: 0px!important;">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Polisa Privatnosti</div>
+    </div>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="offers" style="padding-top: 5px;">
+    <div class="container">
+
+        <p style="margin-top: 30px;"> Na <span class="website_name"> Turistička agencija </span>, prikupljamo i upravljamo podacima korisnika u skladu sa sljedećim Pravilima o privatnosti. </p>
+
+        <h3> Prikupljeni podaci </h3>
+
+        <p> Prikupljamo podatke koje nam dajete direktno. Na primjer, prikupljamo podatke kada kreirate račun, pretplatite se, sudjelujete u bilo kojoj interaktivnoj funkciji naših usluga, ispunimo obrazac, zatražimo korisničku podršku ili na drugi način komuniciramo s nama. Vrste informacija koje možemo prikupljati uključuju vaše ime, adresu e-pošte, poštansku adresu, podatke o kreditnoj kartici i druge kontakte ili identifikacijske podatke koje odlučite da date. </p>
+
+        <p> Prikupljamo anonimne podatke od svakog posjetitelja Web stranice da nadgledamo promet i ispravimo greške. Na primjer, prikupljamo informacije poput web zahtjeva, podatke poslate kao odgovor na takve zahtjeve, adresu internetskog protokola, vrstu preglednika, jezik preglednika i vremensku oznaku za zahtjev. </p>
+
+        <p> Također koristimo razne tehnologije za prikupljanje informacija, a to može uključivati ​​slanje kolačića na vaše računalo. Kolačići su male datoteke podataka pohranjene na vašem tvrdom disku ili u memoriji vašeg uređaja koji nam pomažu u poboljšanju naših usluga i vašeg iskustva, pogledajte koja su područja i značajke naših usluga popularne i brojite posjete. Također možemo prikupljati informacije pomoću web-svjetala (poznatih i kao "slikovne piksele"). Web svetioni su elektroničke slike koje se mogu koristiti u našim servisima ili e-mailovima i za praćenje broja posjeta ili razumijevanje učinkovitosti korištenja i kampanje. </p>
+
+        <h3> Upotreba podataka </h3>
+
+        <p> Vaše lične podatke koristimo samo da bismo vam pružili usluge <span class="website_name"> Turistička agencija </span> ili da bismo komunicirali s vama o web stranici ili uslugama.</p>
+
+        <p> Koristimo standardne industrijske tehnike za zaštitu od neovlaštenog pristupa podacima o vama koji pohranjujemo, uključujući lične podatke. </p>
+
+        <p> Ne delimo lične podatke koje ste nam dali bez vašeg pristanka, osim: </p>
+
+        <ul style="list-style-type:circle; margin-left: 30px; margin-bottom: 20px;">
+            <li style="margin-bottom: 5px;"> Ovo je prikladno da izvršite svoj vlastiti zahtjev </li>
+            <li style="margin-bottom: 5px;"> Vjerujemo da je potrebno za provođenje naših zakonskih sporazuma ili je to zakonski obavezno </li>
+            <li> Vjerujemo da je potrebno otkriti, spriječiti ili riješiti prevare, sigurnosne ili tehničke probleme </li>
+        </ul>
+
+        <h3> Dijeljenje podataka </h3>
+
+        <p> Ne delimo vaše lične podatke sa trećim stranama. Agregirani, anonimni podaci povremeno se šalju vanjskim servisima kako bi nam pomogli u poboljšanju Web stranice i usluga. </p>
+
+        <p> Trećim stranama možemo omogućiti pružanje analitičkih usluga. Ove treće strane mogu koristiti kolačiće, web-svjetionike i druge tehnologije za prikupljanje informacija o vašoj upotrebi usluga i drugih web stranica, uključujući vašu IP adresu, web preglednik, pregledane stranice, vrijeme provedeno na stranicama, klikove na veze i informacije o pretvorbi. </ P >
+
+        <p> Koristimo i društvene tipke koje pružaju usluge poput Twittera, Google+, LinkedIna i Facebooka. Vaša upotreba ovih usluga trećih strana u potpunosti je neobavezna. Nismo odgovorni za politike privatnosti i / ili prakse tih usluga trećih strana, a vi ste odgovorni za čitanje i razumijevanje politika privatnosti tih usluga. </p>
+
+        <h3> Isključivanje, postavke komunikacije </h3>
+
+        <p> Možete izmijeniti svoje komunikacijske postavke i / ili odustati od određene komunikacije u bilo kojem trenutku. Navedite i prilagodite svoje postavke. </p>
+
+        <h3> Sigurnost </h3>
+
+        <p> Poduzimamo razumne korake da zaštitimo lične informacije od gubitka, zloupotrebe i neovlaštenog pristupa, otkrivanja, izmjena ili uništavanja. Ali, treba imati na umu da nijedan Internet prijenos nikada nije potpuno siguran ili bez grešaka. Konkretno, e-pošta poslana na web stranice ili sa njih možda nije sigurna. </p>
+
+        <h3> O djeci </h3>
+
+        <p> Web stranica nije namijenjena djeci mlađoj od 13 godina. Posjetioce ove dobne skupine svjesno ne prikupljamo podatke putem Interneta putem web stranice. </p>
+
+        <h3> Izmene Pravila o privatnosti </h3>
+
+        <p> Možemo povremeno izmijeniti ovu Politiku privatnosti. Upotreba podataka koje sada prikupljamo podložna je Pravilima o privatnosti koji su na snazi ​​u trenutku kada se takve informacije koriste. </p>
+
+        <p> Ako napravimo velike promjene u načinu na koji prikupljamo ili koristimo informacije, obavijestit ćemo vas objavom na web mjestu ili slanjem e-pošte. </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+
+}

@@ -1,56 +1,78 @@
 ﻿@model TurističkaAgencija.Models.Rezervacija
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Kreiraj";
 }
 
-<h2>Rezervacija putovanja: <span class="text-primary">@ViewBag.PonudaNaziv</span></h2>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Rezervacija putovanja</div>
+    </div>
+</div>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PonudaId" />
-            <div class="form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="postojeci" checked>Postojeći korisnik
-                </label>
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">@ViewBag.PonudaNaziv</span></div>
+                    </div>
+
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="PonudaId" />
+                        <div class="row  justify-content-center">
+                            <div class="form-check-inline">
+                                <label class="form-check-label" style="color: white;">
+                                    <input type="radio" class="form-check-input" name="optradio" id="postojeci" checked>Postojeći korisnik
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label" style="color: white;">
+                                    <input type="radio" class="form-check-input" name="optradio" id="novi">Novi korisnik
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px;"></div>
+                        <div id="korisnik">
+                            <partial name="ExistingUserPartial" />
+                        </div>
+
+                        <div class="row  justify-content-center">
+                            <div class="form-group">
+                                <button type="submit" id="form_submit_button" class="form_submit_button button">Rezerviši<span></span><span></span><span></span></button>
+                                <a href="@Url.Action("Index", "Rezervacija", new { ponudaId = ViewBag.PonudaId})" class="btn btn-danger" style="margin-left: 10px; margin-top: 30px;">Odustani</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-            <div class="form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio" id="novi">Novi korisnik
-                </label>
-            </div>
-            <div style="margin-bottom: 10px;"></div>
-            <div id="korisnik">
-                <partial name="ExistingUserPartial" />
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Rezerviši" class="btn btn-primary" />
-                <a href="@Url.Action("Index", "Rezervacija", new { ponudaId = ViewBag.PonudaId})" class="btn btn-outline-danger">Odustani</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
-    window.onload = function () {
-        var postojeci = document.getElementById('postojeci');
-        var novi = document.getElementById('novi');
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
 
-        postojeci.onclick = function () {
-            $("#korisnik").empty();
-            $("#korisnik").load("ExistingUserPartial");
+    <script>
+        window.onload = function () {
+            var postojeci = document.getElementById('postojeci');
+            var novi = document.getElementById('novi');
+
+            postojeci.onclick = function () {
+                $("#korisnik").empty();
+                $("#korisnik").load("ExistingUserPartial");
+            }
+            novi.onclick = function () {
+                $("#korisnik").empty();
+                $("#korisnik").load("NewUserPartial");
+            }
         }
-        novi.onclick = function () {
-            $("#korisnik").empty();
-            $("#korisnik").load("NewUserPartial");
-        }
-    }   
-</script>
+    </script>
 }

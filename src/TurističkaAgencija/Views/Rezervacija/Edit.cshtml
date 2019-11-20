@@ -1,39 +1,59 @@
 ﻿@model TurističkaAgencija.Models.Rezervacija
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Izmjena";
 }
 
-<h2>Izmjena ponude: <span class="text-primary">@ViewBag.PonudaNaziv</span> za korisnika: <span class="text-primary">@ViewBag.KorisnikIme</span></h2>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PonudaId" />
-            <input type="hidden" asp-for="KorisnikId" />
-            <div class="form-group">
-                <label asp-for="DatumRezervacije" class="control-label">Datum rezervacije</label>
-                <input asp-for="DatumRezervacije" class="form-control" />
-                <span asp-validation-for="DatumRezervacije" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Iznos" class="control-label"></label>
-                <input asp-for="Iznos" class="form-control" readonly/>
-                <span asp-validation-for="Iznos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Sačuvaj" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Rezervacija / izmjena</div>
     </div>
 </div>
 
-<div>
-    <a href="@Url.Action("Index", "Rezervacija", new { ponudaId = Model.PonudaId})">Pregled rezervacija za ponudu: @ViewBag.PonudaNaziv</a>
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">@ViewBag.PonudaNaziv</span> : @ViewBag.KorisnikIme</div>
+                    </div>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="PonudaId" />
+                        <input type="hidden" asp-for="KorisnikId" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DatumRezervacije" class="control-label" style="color: white;">Datum rezervacije</label>
+                                    <input asp-for="DatumRezervacije" class="form-control" />
+                                    <span asp-validation-for="DatumRezervacije" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Iznos" class="control-label" style="color: white;"></label>
+                                    <input asp-for="Iznos" class="form-control" readonly />
+                                    <span asp-validation-for="Iznos" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  justify-content-center">
+                            <div class="form-group">
+                                <button type="submit" id="form_submit_button" class="form_submit_button button">Sačuvaj<span></span><span></span><span></span></button>
+                                <a href="@Url.Action("Index", "Rezervacija", new { ponudaId = ViewBag.PonudaIdEdit})" class="btn btn-danger" style="margin-left: 10px; margin-top: 30px;">Odustani</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
 }

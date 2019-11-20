@@ -1,72 +1,62 @@
 ﻿@model IEnumerable<TurističkaAgencija.Models.Destinacija>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Destinacija";
 }
 
-<h1>
-    Destinacije
-    <a class="btn btn-outline-info" asp-action="Create">Dodaj novu destinaciju</a>
-</h1>
-<hr />
+<div class="home" style="margin-bottom: 0px!important;">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Destinacije</div>
+    </div>
+</div>
 
-@foreach (var item in Model)
-{
+<div class="offers" style="padding-top: 5px;">
     <div class="container">
-        <div class="row">
-            <div class="col-5">
-                <h2 class="text-primary ">@item.Grad</h2>
-                <img class="popImg img-thumbnail img-hover" width="430"
-                     src="@Html.DisplayFor(modelItem => item.Slika)"
-                     alt="@Html.DisplayFor(modelItem => item.Grad)" />
-                <p></p>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </div>
-            <div class="col-7">
-                <div class="row">
-                    <div class="col">
-                        <p><strong>Grad: </strong>@item.Grad</p>
-                        <p><strong>Država: </strong>@item.Drzava.Naziv</p>
-                        <p><strong>Opis: </strong>@item.Opis</p>
+        
+        <div class="row offers_items">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-12 offers_col">
+                    <div class="offers_item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="offers_image_container">
+                                    <div class="offers_image_background" id="myDiv" style="background-image:url(@item.Slika)"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="offers_content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="offers_price" id="textDiv" title="@item.Grad, @item.Drzava.Naziv">@item.Grad, @item.Drzava.Naziv</div>
+                                        </div>
+
+                                    </div>
+
+                                    <p class="offers_text">@item.Opis</p>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6" style="margin-left: 5px;">
+                                            <div class="offers_link"><a asp-action="Search" asp-route-id="@item.Id">Pogledaj ponudu za ovu destinaciju</a></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <hr />
-}
-
-<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="" class="imagepreview" style="width: 100%;">
-            </div>
+            }
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <script>
-    $(function () {
-        $('.popImg').on('click', function () {
-            $('.imagepreview').attr('src', $(this).attr('src'));
-            $('#exampleModalCenterTitle').text($(this).attr('alt'));
-            $('#imagemodal').modal('show');
-        });
-    });
-    </script>
-    <style>
-        .img-hover {
-            cursor: pointer;
-        }
-    </style>
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
+    <script src="~/Assets/js/offers_custom.js"></script>
+    <script src="~/Assets/plugins/Isotope/isotope.pkgd.min.js"></script>
 }

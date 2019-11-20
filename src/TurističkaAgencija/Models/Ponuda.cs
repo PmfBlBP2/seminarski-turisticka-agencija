@@ -19,6 +19,7 @@ namespace TurističkaAgencija.Models
         [Required(ErrorMessage = "Morate unijeti naziv")]
         public string Naziv { get; set; }
         public string Opis { get; set; }
+        public string Slika { get; set; }
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Morate odabrati datum kreiranja")]

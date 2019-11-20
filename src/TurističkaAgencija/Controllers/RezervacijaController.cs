@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,6 @@ namespace TurističkaAgencija.Controllers
             _context = context;
         }
 
-        // GET: Rezervacija
         public async Task<IActionResult> Index(int? ponudaId)
         {
             if(ponudaId == null)
@@ -53,6 +53,7 @@ namespace TurističkaAgencija.Controllers
 
             return View(await turistickaAgencijaContext.ToListAsync().ConfigureAwait(false));
         }
+
         public async Task<IActionResult> ExistingUserPartial()
         {
             var korisnik = _context.Korisnik
@@ -64,33 +65,13 @@ namespace TurističkaAgencija.Controllers
             ViewData["KorisnikId"] = new SelectList(korisnik, "Id", "Podaci");
             return PartialView();
         }
+
         public async Task<IActionResult> NewUserPartial()
         {
             return PartialView();
         }
 
-        // GET: Rezervacija/Details/5
-        public async Task<IActionResult> Details(int? ponudaId, int? korisnikId)
-        {
-            if (ponudaId == null || korisnikId == null)
-            {
-                return NotFound();
-            }
 
-            var rezervacija = await _context.Rezervacija
-                .Include(r => r.Korisnik)
-                .Include(r => r.Ponuda)
-                .FirstOrDefaultAsync(m => m.PonudaId == ponudaId && m.KorisnikId == korisnikId)
-                .ConfigureAwait(false);
-            if (rezervacija == null)
-            {
-                return NotFound();
-            }
-
-            return View(rezervacija);
-        }
-
-        // GET: Rezervacija/Create
         public IActionResult Create(int? ponudaId)
         {
             if(ponudaId == null)
@@ -113,9 +94,6 @@ namespace TurističkaAgencija.Controllers
             return View();
         }
 
-        // POST: Rezervacija/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int ponudaId, Rezervacija rezervacija)
@@ -175,12 +153,21 @@ namespace TurističkaAgencija.Controllers
                 return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
             }
 
+            if(ponuda.BrojMijesta == 0)
+            {
+                TempData["ErrorMessage"] = "Nema više slobodnih mijesta za ovu ponudu!";
+                return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
+            }
+
             if(ModelState.IsValid)
             {
                 rezervacija.KorisnikId = korisnikId;
                 rezervacija.Iznos = ponuda.Cijena;
                 rezervacija.DatumRezervacije = DateTime.Now;
-
+                
+                ponuda.BrojMijesta -= 1;
+                _context.Update(ponuda);
+                
                 _context.Add(rezervacija);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction("Index", new { ponudaId = rezervacija.PonudaId });
@@ -196,7 +183,7 @@ namespace TurističkaAgencija.Controllers
             return View(rezervacija);
         }
 
-        // GET: Rezervacija/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? ponudaId, int? korisnikId)
         {
             if (ponudaId == null || korisnikId == null)
@@ -220,14 +207,13 @@ namespace TurističkaAgencija.Controllers
                 .FirstOrDefault();
             ViewBag.KorisnikIme = (korisnik.Ime + " " + korisnik.Prezime);
 
+            ViewBag.PonudaIdEdit = ponudaId;
+
             ViewData["KorisnikId"] = new SelectList(_context.Korisnik, "Id", "Ime", rezervacija.KorisnikId);
             ViewData["PonudaId"] = new SelectList(_context.Ponuda, "Id", "Naziv", rezervacija.PonudaId);
             return View(rezervacija);
         }
 
-        // POST: Rezervacija/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int ponudaId, int korisnikId, [Bind("Id,PonudaId,KorisnikId,DatumRezervacije,Iznos")] Rezervacija rezervacija)
@@ -265,15 +251,19 @@ namespace TurističkaAgencija.Controllers
             return View(rezervacija);
         }
 
+        [Authorize]
         public async Task<IActionResult> Remove(int ponudaId, int korisnikId)
         {
             var rezervacija = await _context.Rezervacija.FindAsync(ponudaId, korisnikId).ConfigureAwait(false);
- 
+
+            var ponuda = await _context.Ponuda.FindAsync(ponudaId).ConfigureAwait(false);
+            ponuda.BrojMijesta += 1;
+
+            _context.Update(ponuda);
             _context.Rezervacija.Remove(rezervacija);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return RedirectToAction("Index", "Rezervacija", new { ponudaId = rezervacija.PonudaId });
         }
-
 
         private bool RezervacijaExists(int ponudaId)
         {

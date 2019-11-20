@@ -14,6 +14,7 @@ namespace TurističkaAgencija.Models
         public int KompanijaId { get; set; }
         public int TipPrevozaId { get; set; }
         public string Opis { get; set; }
+        public string Slika { get; set; }
 
         public virtual Kompanija Kompanija { get; set; }
         public virtual TipPrevoza TipPrevoza { get; set; }

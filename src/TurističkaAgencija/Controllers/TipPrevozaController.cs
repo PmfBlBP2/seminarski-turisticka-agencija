@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,39 +19,17 @@ namespace TurističkaAgencija.Controllers
             _context = context;
         }
 
-        // GET: TipPrevozas
         public async Task<IActionResult> Index()
         {
             return View(await _context.TipPrevoza.ToListAsync());
         }
 
-        // GET: TipPrevozas/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tipPrevoza = await _context.TipPrevoza
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipPrevoza == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipPrevoza);
-        }
-
-        // GET: TipPrevozas/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TipPrevozas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Naziv")] TipPrevoza tipPrevoza)
@@ -64,7 +43,7 @@ namespace TurističkaAgencija.Controllers
             return View(tipPrevoza);
         }
 
-        // GET: TipPrevozas/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,9 +59,6 @@ namespace TurističkaAgencija.Controllers
             return View(tipPrevoza);
         }
 
-        // POST: TipPrevozas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Naziv")] TipPrevoza tipPrevoza)
@@ -115,33 +91,14 @@ namespace TurističkaAgencija.Controllers
             return View(tipPrevoza);
         }
 
-        // GET: TipPrevozas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize]
+        public async Task<IActionResult> Remove(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var tipPrevoza = await _context.TipPrevoza.FindAsync(id).ConfigureAwait(false);
 
-            var tipPrevoza = await _context.TipPrevoza
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipPrevoza == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipPrevoza);
-        }
-
-        // POST: TipPrevozas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var tipPrevoza = await _context.TipPrevoza.FindAsync(id);
             _context.TipPrevoza.Remove(tipPrevoza);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return RedirectToAction("Index", "TipPrevoza");
         }
 
         private bool TipPrevozaExists(int id)

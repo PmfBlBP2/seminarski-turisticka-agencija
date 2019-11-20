@@ -1,41 +1,66 @@
 ﻿@model TurističkaAgencija.Models.Prevoz
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Kreiraj";
 }
 
-<h1>Create</h1>
-
-<h4>Prevoz</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="KompanijaId" class="control-label"></label>
-                <select asp-for="KompanijaId" class ="form-control" asp-items="ViewBag.KompanijaId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipPrevozaId" class="control-label"></label>
-                <select asp-for="TipPrevozaId" class ="form-control" asp-items="ViewBag.TipPrevozaId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Opis" class="control-label"></label>
-                <input asp-for="Opis" class="form-control" />
-                <span asp-validation-for="Opis" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="/Assets/images/about_background.jpg"></div>
+    <div class="home_content">
+        <div class="home_title">Prevoz / Kreiraj</div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="contact" style="margin-top: 80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="contact_form_container">
+                    <div class="row  justify-content-center" style="padding-bottom: 30px; margin-top: -30px;">
+                        <div class="contact_title"><span class="text-warning">@ViewBag.PonudaNaziv</span></div>
+                    </div>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="KompanijaId" class="control-label" style="color: white;">Kompanija</label>
+                                    <select asp-for="KompanijaId" class="form-control" asp-items="ViewBag.KompanijaId"></select>
+                                    <span asp-validation-for="KompanijaId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="TipPrevozaId" class="control-label" style="color: white;">Tip prevoza</label>
+                                    <select asp-for="TipPrevozaId" class="form-control" asp-items="ViewBag.TipPrevozaId"></select>
+                                    <span asp-validation-for="TipPrevozaId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Opis" class="control-label" style="color: white;"></label>
+                            <input asp-for="Opis" class="form-control" />
+                            <span asp-validation-for="Opis" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Slika" class="control-label" style="color: white;">Unesite link slike</label>
+                            <input asp-for="Slika" class="form-control" />
+                            <span asp-validation-for="Slika" class="text-danger"></span>
+                        </div>
+                        <div class="row  justify-content-center">
+                            <div class="form-group">
+                                <button type="submit" id="form_submit_button" class="form_submit_button button">Sačuvaj<span></span><span></span><span></span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Assets/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Assets/js/contact_custom.js"></script>
 }
